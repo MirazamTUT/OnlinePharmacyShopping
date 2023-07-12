@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyShopping.API", "PharmacyShopping.API\PharmacyShopping.API.csproj", "{6413D44C-F25B-4712-A905-A122966108EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmacyShopping.API", "PharmacyShopping.API\PharmacyShopping.API.csproj", "{6413D44C-F25B-4712-A905-A122966108EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyShopping.DataAccess", "PharmacyShopping.DataAccess\PharmacyShopping.DataAccess.csproj", "{BB59A5E8-B2BA-4358-9B59-9611111F7364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmacyShopping.DataAccess", "PharmacyShopping.DataAccess\PharmacyShopping.DataAccess.csproj", "{BB59A5E8-B2BA-4358-9B59-9611111F7364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyShopping.BusinessLogic", "PharmacyShopping.BusinessLogic\PharmacyShopping.BusinessLogic.csproj", "{EEF51621-005A-4CD5-B2C4-723694EEA872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmacyShopping.BusinessLogic", "PharmacyShopping.BusinessLogic\PharmacyShopping.BusinessLogic.csproj", "{EEF51621-005A-4CD5-B2C4-723694EEA872}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OnlinePharmacyShopping.Unit.Test", "OnlinePharmacyShopping.Unit.Test", "{8B827DFE-6147-4615-8EF7-EFE49AB43A05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Test", "API.Test\API.Test.csproj", "{F9F467B5-C813-4683-920B-E7EC9350EC34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.Test", "BusinessLogic.Test\BusinessLogic.Test.csproj", "{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Test", "DataAccess.Test\DataAccess.Test.csproj", "{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +35,26 @@ Global
 		{EEF51621-005A-4CD5-B2C4-723694EEA872}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEF51621-005A-4CD5-B2C4-723694EEA872}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEF51621-005A-4CD5-B2C4-723694EEA872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F467B5-C813-4683-920B-E7EC9350EC34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F467B5-C813-4683-920B-E7EC9350EC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F467B5-C813-4683-920B-E7EC9350EC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F467B5-C813-4683-920B-E7EC9350EC34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9F467B5-C813-4683-920B-E7EC9350EC34} = {8B827DFE-6147-4615-8EF7-EFE49AB43A05}
+		{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D} = {8B827DFE-6147-4615-8EF7-EFE49AB43A05}
+		{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7} = {8B827DFE-6147-4615-8EF7-EFE49AB43A05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CA625D0-29A9-4015-87F6-17E88A0F9F90}

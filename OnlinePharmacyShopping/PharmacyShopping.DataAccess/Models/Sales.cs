@@ -22,7 +22,5 @@
         public List<Purchase> Purchases { get; set; }
 
         public List<Customer> Customers { get; set; }
-
-
     }
 }

@@ -8,12 +8,15 @@
 
         public int CustomerId { get; set; }
 
+        public int MedicineId { get; set; }
+
+        public string ReportDescription { get; set; }
+
         public DateTime ReportDate { get; set; }
 
 
         public List<Customer> Customers { get; set; }
 
         public List<Medicine> Medicines { get; set; }
-
     }
 }

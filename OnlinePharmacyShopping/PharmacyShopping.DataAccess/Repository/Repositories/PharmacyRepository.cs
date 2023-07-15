@@ -8,6 +8,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
     public class PharmacyRepository : IPharmacyRepository
     {
         private readonly PharmacyDbContext _context;
+        
         public PharmacyRepository(PharmacyDbContext context)
         {
             _context = context;

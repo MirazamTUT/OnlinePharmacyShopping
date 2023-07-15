@@ -13,11 +13,6 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             _context = context;
         }
 
-        public Task<int> AddPharmacy(Pharmacy pharmacy)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> AddPharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Add(pharmacy);
@@ -25,21 +20,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             return pharmacy.PharmacyId;
         }
 
-        public Task<int> DeletePharmacy(Pharmacy pharmacy)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> DeletePharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Remove(pharmacy);
             _context.SaveChangesAsync();
             return pharmacy.PharmacyId;
-        }
-
-        public Task<List<Pharmacy>> GetAllPharmacy()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<List<Pharmacy>> GetAllPharmacyAsync()
@@ -50,7 +35,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Pharmacy> GetPharmacyById(int pharmacyId)
+        public async Task<Pharmacy> GetPharmacyByIdAsync(int pharmacyId)
         {
             return await _context.Pharmacies
                 .Include(u => u.Sales)
@@ -58,7 +43,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                 .FirstOrDefaultAsync(u => u.PharmacyId == pharmacyId);
         }
 
-        public async Task<int> UpdatePharmacy(Pharmacy pharmacy)
+        public async Task<int> UpdatePharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Update(pharmacy);
             _context.SaveChanges();

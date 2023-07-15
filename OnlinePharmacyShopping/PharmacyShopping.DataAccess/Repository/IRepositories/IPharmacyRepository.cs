@@ -10,10 +10,10 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 {
     public interface IPharmacyRepository
     {
-        Task<int> AddPharmacy(Pharmacy pharmacy);
-        Task<Pharmacy> GetPharmacyById(int pharmacyId);
-        Task<List<Pharmacy>> GetAllPharmacy();
-        Task<int> UpdatePharmacy(Pharmacy pharmacy);
-        Task<int> DeletePharmacy(Pharmacy pharmacy);
+        Task<int> AddPharmacyAsync(Pharmacy pharmacy);
+        Task<Pharmacy> GetPharmacyByIdAsync(int pharmacyId);
+        Task<List<Pharmacy>> GetAllPharmacyAsync();
+        Task<int> UpdatePharmacyAsync(Pharmacy pharmacy);
+        Task<int> DeletePharmacyAsync(Pharmacy pharmacy);
     }
 }

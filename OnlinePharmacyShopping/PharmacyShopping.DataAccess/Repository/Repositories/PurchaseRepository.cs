@@ -5,21 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyShopping.DataAccess.Repository.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class PurchaseRepository : IPurchaseRepository
     {
         private readonly PharmacyDbContext _pharmacyDbContext;
 
-        public CustomerRepository(PharmacyDbContext pharmacyDbContext)
+        public PurchaseRepository(PharmacyDbContext pharmacyDbContext)
         {
             _pharmacyDbContext = pharmacyDbContext;
         }
-        public async Task<int> AddCustomerAsync(Customer customer)
+        public async Task<int> AddPurchaseAsync(Purchase purchase)
         {
             try
             {
-                _pharmacyDbContext.Customers.Add(customer);
+                _pharmacyDbContext.Purchases.AddAsync(purchase);
                 await _pharmacyDbContext.SaveChangesAsync();
-                return customer.CustomerId;
+                return purchase.PurchaseId;
             }
             catch (DbUpdateException ex)
             {
@@ -31,13 +31,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<int> DeleteCustomerAsync(Customer customer)
+        public async Task<int> DeletePurchaseAsync(Purchase purchase)
         {
             try
             {
-                _pharmacyDbContext.Customers.Remove(customer);
+                _pharmacyDbContext.Purchases.Remove(purchase);
                 await _pharmacyDbContext.SaveChangesAsync();
-                return customer.CustomerId;
+                return purchase.PurchaseId;
             }
             catch (DbUpdateException ex)
             {
@@ -49,14 +49,14 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<Customer>> GetAllCustomersAsync()
+        public async Task<List<Purchase>> GetAllPurchasesAsync()
         {
             try
             {
-                return await _pharmacyDbContext.Customers
-                    .Include(x => x.Purchases)
+                return await _pharmacyDbContext.Purchases
                     .Include(x => x.Sales)
-                    .Include(x => x.Reports)
+                    .Include(x => x.Customer)
+                    .Include(x => x.Medicine)
                     .ToListAsync();
             }
             catch (InvalidOperationException ex)
@@ -69,15 +69,15 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<Customer> GetCustomerByIdAsync(int id)
+        public async Task<Purchase> GetPurchaseByIdAsync(int id)
         {
             try
             {
-                return await _pharmacyDbContext.Customers
-                   .Include(x => x.Purchases)
-                   .Include(x => x.Sales)
-                   .Include(x => x.Reports)
-                   .FirstOrDefaultAsync(x => x.CustomerId == id);
+                return await _pharmacyDbContext.Purchases
+                    .Include(x => x.Sales)
+                    .Include(x => x.Customer)
+                    .Include(x => x.Medicine)
+                    .FirstOrDefaultAsync(x => x.PurchaseId == id);
             }
             catch (InvalidOperationException ex)
             {
@@ -89,18 +89,15 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<int> UpdateCustomerAsync(Customer customer)
+        public async Task<int> UpdatePurchaseAsync(Purchase purchase)
         {
             try
             {
-                var customerForUpdate = await GetCustomerByIdAsync(customer.CustomerId);
-                customerForUpdate.CustomerFirstName = customer.CustomerFirstName;
-                customerForUpdate.CustomerLastName = customer.CustomerLastName;
-                customerForUpdate.PhoneNumber = customer.PhoneNumber;
-                customerForUpdate.CustomerEmail = customer.CustomerEmail;
-                customerForUpdate.CustomerPassword = customer.CustomerPassword;
+                var purchaseForUpdate = await GetPurchaseByIdAsync(purchase.PurchaseId);
+                purchaseForUpdate.Amount = purchase.Amount;
+                purchaseForUpdate.PurchaseDate = purchase.PurchaseDate;
                 await _pharmacyDbContext.SaveChangesAsync();
-                return customer.CustomerId;
+                return purchase.PurchaseId;
             }
             catch (DbUpdateException ex)
             {

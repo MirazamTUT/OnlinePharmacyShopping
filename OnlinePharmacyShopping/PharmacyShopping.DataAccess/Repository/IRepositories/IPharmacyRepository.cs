@@ -8,7 +8,7 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
     {
         Task<int> AddPharmacyAsync(Pharmacy pharmacy);
         
-        Task<Pharmacy> GetPharmacyByIdAsync(int pharmacyId);
+        Task<Pharmacy> GetPharmacyByIdAsync(int id);
         
         Task<List<Pharmacy>> GetAllPharmacyAsync();
         

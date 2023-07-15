@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -24,6 +24,10 @@
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 		<PackageReference Include="Serilog.UI" Version="2.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PharmacyShopping.DataAccess\PharmacyShopping.DataAccess.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -14,34 +14,34 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             _context = context;
         }
 
-        public int AddDataBase(DataBase dataBase)
+        public async Task<int> AddDataBase(DataBase dataBase)
         {
             _context.DataBases.Add(dataBase);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return dataBase.DataBaseId;
         }
 
-        public int DeleteDataBase(DataBase dataBase)
+        public async Task<int> DeleteDataBase(DataBase dataBase)
         {
             _context.DataBases.Remove(dataBase);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return dataBase.DataBaseId;
         }
 
-        public List<DataBase> GetAllDataBases() => _context.DataBases
+        public async Task<List<DataBase>> GetAllDataBases() => await _context.DataBases
             .Include(u => u.Pharmacy)
             .Include(u => u.Medicine)
-            .ToList();
+            .ToListAsync();
 
-        public DataBase GetDataBaseById(int id) => _context.DataBases
+        public async Task<DataBase> GetDataBaseById(int id) => await _context.DataBases
             .Include(u => u.Pharmacy)
             .Include(u => u.Medicine)
-            .FirstOrDefault(u => u.DataBaseId == id);
+            .FirstOrDefaultAsync(u => u.DataBaseId == id);
 
-        public int UpdateDtaBase(DataBase dataBase)
+        public async Task<int> UpdateDtaBase(DataBase dataBase)
         {
             _context.DataBases.Update(dataBase);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return dataBase.DataBaseId;
         }
     }

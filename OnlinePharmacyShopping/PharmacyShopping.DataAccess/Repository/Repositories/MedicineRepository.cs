@@ -3,7 +3,7 @@ using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
 
-namespace PharmacyShopping.DataAccess.Repository.Repostories
+namespace PharmacyShopping.DataAccess.Repository.Repositories
 {
     public class MedicineRepository : IMedicineRepository
     {

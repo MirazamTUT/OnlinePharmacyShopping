@@ -1,9 +1,15 @@
-﻿namespace PharmacyShopping.DataAccess.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PharmacyShopping.BusinessLogic.DTO.ResponseDTO
 {
-    public class Medicine
+    public class MedicineResponseDTO
     {
         public int MedicineId { get; set; }
-
+        
         public int DataBaseId { get; set; }
 
         public string MedicineName { get; set; }
@@ -14,13 +20,6 @@
 
         public double MedicinePrice { get; set; }
 
-        public double AmountOfMedecine { get; set; }
-
-
-        public List<Report> Reports { get; set; }
-
-        public List<Purchase> Purchase { get; set; }
-
-        public DataBase DataBase { get; set; }
+        public double AmountOfMedicine { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             _pharmacyDbContext = pharmacyDbContext;
         }
+
         public async Task<int> AddPurchaseAsync(Purchase purchase)
         {
             try

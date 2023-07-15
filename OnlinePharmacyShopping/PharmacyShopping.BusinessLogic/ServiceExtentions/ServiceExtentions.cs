@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
 using PharmacyShopping.DataAccess.Repository.Repositories;
 
-
 namespace PharmacyShopping.BusinessLogic.ServiceExtentions
 {
     public static class ServiceExtentions
@@ -14,6 +13,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
             services.AddScoped<ISalesRepository, SalesRepository>();
             services.AddScoped<IDataBaseRepository, DataBaseRepository>();
             services.AddScoped<IMedicineRepository, MedicineRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
         }
     }
 }

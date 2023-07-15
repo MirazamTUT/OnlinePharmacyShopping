@@ -4,14 +4,14 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 {
     public interface ISalesRepository
     {
-        Task<int> AddSales(Sales sales);
+        Task<int> AddSalesAsync(Sales sales);
 
-        Task<int> UpdateSales(Sales sales);
+        Task<int> UpdateSalesAsync(Sales sales);
 
-        Task<int> DeleteSales(Sales sales);
+        Task<int> DeleteSalesAsync(Sales sales);
 
-        Task<List<Sales>> GetAllSales();
+        Task<List<Sales>> GetAllSalesAsync();
 
-        Task<Sales> GetSalesByCustomerId(int id);
+        Task<Sales> GetSalesByCustomerIdAsync(int id);
     }
 }

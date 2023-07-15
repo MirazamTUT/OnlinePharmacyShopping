@@ -17,37 +17,31 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         public async Task<int> AddPharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Add(pharmacy);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return pharmacy.PharmacyId;
         }
 
         public async Task<int> DeletePharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Remove(pharmacy);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return pharmacy.PharmacyId;
         }
 
-        public async Task<List<Pharmacy>> GetAllPharmacyAsync()
-        {
-            return await _context.Pharmacies
+        public async Task<List<Pharmacy>> GetAllPharmacyAsync() => await _context.Pharmacies
                 .Include(u => u.Sales)
                 .Include(u => u.Reports)
                 .ToListAsync();
-        }
 
-        public async Task<Pharmacy> GetPharmacyByIdAsync(int pharmacyId)
-        {
-            return await _context.Pharmacies
+        public async Task<Pharmacy> GetPharmacyByIdAsync(int id) => await _context.Pharmacies
                 .Include(u => u.Sales)
                 .Include(u => u.Reports)
-                .FirstOrDefaultAsync(u => u.PharmacyId == pharmacyId);
-        }
+                .FirstOrDefaultAsync(u => u.PharmacyId == id);
 
         public async Task<int> UpdatePharmacyAsync(Pharmacy pharmacy)
         {
             _context.Pharmacies.Update(pharmacy);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return pharmacy.PharmacyId;
         }
     }

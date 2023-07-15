@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PharmacyShopping.BusinessLogic.DTO.ResponseDTO
+﻿namespace PharmacyShopping.BusinessLogic.DTO.ResponseDTOs
 {
     public class MedicineResponseDTO
     {
         public int MedicineId { get; set; }
-        
+
         public int DataBaseId { get; set; }
 
         public string MedicineName { get; set; }

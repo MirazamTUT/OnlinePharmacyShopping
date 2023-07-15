@@ -9,6 +9,6 @@
 
         public List<Medicine> Medicine { get; set; }
 
-        public Pharmacy Chemistry { get; set; }
+        public Pharmacy Pharmacy { get; set; }
     }
 }

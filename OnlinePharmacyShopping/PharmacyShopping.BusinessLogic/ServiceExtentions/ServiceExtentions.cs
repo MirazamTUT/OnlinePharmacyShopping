@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
+using PharmacyShopping.DataAccess.Repository.Repositories;
 using PharmacyShopping.DataAccess.Repository.Repostories;
 
 namespace PharmacyShopping.BusinessLogic.ServiceExtentions
@@ -11,6 +12,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
         {
             services.AddScoped<IDataBaseRepository, IDataBaseRepository>();
             services.AddScoped<IMedicineRepository, MedicineRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
         }
     }
 }

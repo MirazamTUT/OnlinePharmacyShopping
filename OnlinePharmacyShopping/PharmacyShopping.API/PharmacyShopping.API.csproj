@@ -37,4 +37,9 @@
     <ProjectReference Include="..\PharmacyShopping.DataAccess\PharmacyShopping.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PharmacyShopping.BusinessLogic\PharmacyShopping.BusinessLogic.csproj" />
+    <ProjectReference Include="..\PharmacyShopping.DataAccess\PharmacyShopping.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

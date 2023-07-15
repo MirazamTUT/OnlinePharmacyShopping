@@ -2,13 +2,13 @@
 using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
-using System.Runtime.CompilerServices;
 
 namespace PharmacyShopping.DataAccess.Repository.Repostories
 {
     public class MedicineRepository : IMedicineRepository
     {
-        public PharmacyDbContext _context;
+        private readonly PharmacyDbContext _context;
+
         public MedicineRepository(PharmacyDbContext context)
         {
             _context = context;
@@ -37,7 +37,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repostories
         public async Task<Medicine> GetMedicineByIdAsync(int id) => await _context.Medicines
             .Include(u => u.Reports)
             .Include(u => u.Purchase)
-            .Include(u=>u.DataBase)
+            .Include(u => u.DataBase)
             .FirstOrDefaultAsync(u => u.MedicineId == id);
 
         public async Task<int> UpdateMedicineAsync(Medicine medicine)

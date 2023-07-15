@@ -10,6 +10,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ISalesRepository, SalesRepository>();
+            services.AddScoped<IDataBaseRepository, IDataBaseRepository>();
         }
     }
 }

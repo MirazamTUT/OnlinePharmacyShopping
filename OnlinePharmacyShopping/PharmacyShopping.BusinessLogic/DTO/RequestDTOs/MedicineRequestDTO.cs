@@ -1,9 +1,7 @@
-﻿namespace PharmacyShopping.DataAccess.Models
+﻿namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 {
-    public class Medicine
+    public class MedicineRequestDTO
     {
-        public int MedicineId { get; set; }
-
         public int DataBaseId { get; set; }
 
         public string MedicineName { get; set; }
@@ -15,12 +13,5 @@
         public double MedicinePrice { get; set; }
 
         public double AmountOfMedecine { get; set; }
-
-
-        public List<Report> Reports { get; set; }
-
-        public List<Purchase> Purchase { get; set; }
-
-        public DataBase DataBase { get; set; }
     }
 }

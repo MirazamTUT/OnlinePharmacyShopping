@@ -31,13 +31,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         public async Task<List<Sales>> GetAllSalesAsync() => await _context.Sales
             .Include(u => u.Pharmacy)
             .Include(u => u.Purchases)
-            .Include(u => u.Customers)
+            .Include(u => u.Customer)
             .ToListAsync();
 
         public async Task<Sales> GetSalesByCustomerIdAsync(int id) => await _context.Sales
             .Include(u => u.Pharmacy)
             .Include(u => u.Purchases)
-            .Include(u => u.Customers)
+            .Include(u => u.Customer)
             .FirstOrDefaultAsync(u => u.SaleId == id);
 
         public async Task<int> UpdateSalesAsync(Sales sales)

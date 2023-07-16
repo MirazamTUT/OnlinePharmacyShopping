@@ -4,6 +4,8 @@
     {
         public string PharmacyName { get; set; }
 
+        public int DataBaseId { get; set; }
+
         public List<string> PhoneNumber { get; set; }
 
         public string Email { get; set; }

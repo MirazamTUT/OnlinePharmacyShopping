@@ -4,10 +4,12 @@
     {
         public int PurchaseId { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerFullName { get; set; }
 
-        public int MedicineId { get; set; }
+        public string MedicineName { get; set; }
 
         public DateTime PurchaseDate { get; set; }
+
+        public double Amount { get; set; }
     }
 }

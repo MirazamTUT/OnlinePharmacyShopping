@@ -8,9 +8,10 @@
 
         public int PurchaseId { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerFullName { get; set; }
 
-        public int MedicineId { get; set; }
+        public string MedicineName { get; set; }
 
+        public string ReportDescription { get; set; }
     }
 }

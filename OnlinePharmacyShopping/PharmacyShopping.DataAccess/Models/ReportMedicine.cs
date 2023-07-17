@@ -6,7 +6,7 @@
 
         public int ReportId { get; set; }
 
-        public string MedicineId { get; set; }
+        public int MedicineId { get; set; }
 
 
         public Medicine Medicine { get; set; }

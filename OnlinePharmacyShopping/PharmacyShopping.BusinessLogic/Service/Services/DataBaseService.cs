@@ -34,11 +34,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<List<DataBaseResponseDTO>> GetDataBaseAsync()
+        public async Task<DataBaseResponseDTO> GetDataBaseAsync()
         {
             try
             {
-                return _mapper.Map<List<DataBaseResponseDTO>>(await _dataBaseRepository.GetDataBaseAsync());
+                return _mapper.Map<DataBaseResponseDTO>(await _dataBaseRepository.GetDataBaseAsync());
             }
             catch (InvalidOperationException ex)
             {

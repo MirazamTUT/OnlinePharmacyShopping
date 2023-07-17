@@ -7,6 +7,6 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
     {
         Task<int> AddDataBaseAsync(DataBase dataBase);
 
-        Task<List<DataBaseResponseDTO>> GetDataBaseAsync();
+        Task<DataBaseResponseDTO> GetDataBaseAsync();
     }
 }

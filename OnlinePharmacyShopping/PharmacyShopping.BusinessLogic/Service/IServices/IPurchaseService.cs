@@ -9,7 +9,7 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<int> UpdatePurchaseAsync(PurchaseRequestDTO purchaseRequestDTO, int purchaseId);
 
-        Task<int> DeletePurchaseAsync(int purchaseId);
+        Task<int> DeletePurchaseAsync(PurchaseRequestDTO purchaseRequestDTO, int purchaseId);
 
         Task<PurchaseResponseDTO> GetPurchaseByIdAsync(int purchaseId);
 

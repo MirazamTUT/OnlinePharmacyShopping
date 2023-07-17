@@ -35,7 +35,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
 
         public async Task<Report> GetReportByIdAsync(int id) => await _context.Reports
             .Include(u => u.Customer)
-            .Include (u => u.ReportMedicines)
+            .Include(u => u.ReportMedicines)
             .FirstOrDefaultAsync(u => u.ReportId == id);
 
         public async Task<int> UpdateReportAsync(Report report)

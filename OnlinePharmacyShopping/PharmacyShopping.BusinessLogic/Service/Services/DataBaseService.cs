@@ -10,7 +10,6 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
     public class DataBaseService : IDataBaseService
     {
         private readonly IDataBaseRepository _dataBaseRepository;
-
         private readonly IMapper _mapper;
 
         public DataBaseService(IDataBaseRepository dataBaseRepository, IMapper mapper)
@@ -18,6 +17,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             _dataBaseRepository = dataBaseRepository;
             _mapper = mapper;
         }
+
         public async Task<int> AddDataBaseAsync(DataBase dataBase)
         {
             try

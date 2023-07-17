@@ -28,10 +28,10 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             return dataBase.DataBaseId;
         }
 
-        public async Task<List<DataBase>> GetDataBaseAsync() => await _context.DataBases
+        public async Task<DataBase> GetDataBaseAsync() => await _context.DataBases
             .Include(u => u.Pharmacy)
             .Include(u => u.Medicine)
-            .ToListAsync();
+            .FirstAsync();
 
         public async Task<int> UpdateDataBaseAsync(DataBase dataBase)
         {

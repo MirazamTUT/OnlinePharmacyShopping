@@ -5,7 +5,6 @@ namespace PharmacyShopping.DataAccess.DbConnection
 {
     public class PharmacyDbContext : DbContext
     {
-    
         public PharmacyDbContext(DbContextOptions<PharmacyDbContext> options) :
             base(options)
         {

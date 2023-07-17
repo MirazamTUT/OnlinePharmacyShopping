@@ -10,7 +10,7 @@
 
         public int MedicineId { get; set; }
 
-        public int PurchaseId { get; set; }
+        public List<int> PurchaseId { get; set; }
 
         public DateTime SaleDate { get; set; }
 
@@ -21,6 +21,6 @@
 
         public List<Purchase> Purchases { get; set; }
 
-        public List<Customer> Customers { get; set; }
+        public Customer Customer { get; set; }
     }
 }

@@ -17,7 +17,7 @@
         public double AmountOfMedecine { get; set; }
 
 
-        public List<Report> Reports { get; set; }
+        public List<ReportMedicine> ReportMedicines { get; set; }
 
         public List<Purchase> Purchase { get; set; }
 

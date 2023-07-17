@@ -9,7 +9,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ISalesRepository, SalesRepository>();
             services.AddScoped<IDataBaseRepository, DataBaseRepository>();
             services.AddScoped<IMedicineRepository, MedicineRepository>();

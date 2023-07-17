@@ -8,10 +8,8 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 
         Task<int> DeleteDataBaseAsync(DataBase dataBase);
 
-        Task<List<DataBase>> GetAllDataBasesAsync();
+        Task<List<DataBase>> GetDataBaseAsync();
 
-        Task<DataBase> GetDataBaseByIdAsync(int id);
-
-        Task<int> UpdateDtaBaseAsync(DataBase dataBase);
+        Task<int> UpdateDataBaseAsync(DataBase dataBase);
     }
 }

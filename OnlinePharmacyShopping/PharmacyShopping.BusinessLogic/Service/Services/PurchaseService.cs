@@ -1,0 +1,122 @@
+﻿using AutoMapper;
+using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+using PharmacyShopping.BusinessLogic.Service.IServices;
+using PharmacyShopping.DataAccess.Repository.IRepositories;
+using Microsoft.EntityFrameworkCore;
+using PharmacyShopping.DataAccess.Models;
+
+namespace PharmacyShopping.BusinessLogic.Service.Services
+{
+    public class PurchaseService : IPurchaseService
+    {
+        private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IMapper _mapper;
+
+        public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper)
+        {
+            _purchaseRepository = purchaseRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<int> AddPurchaseAsync(PurchaseRequestDTO purchaseRequestDTO)
+        {
+            try
+            {
+                return await _purchaseRepository.AddPurchaseAsync(_mapper.Map<Purchase>(purchaseRequestDTO));
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was adding changes");
+            }
+        }
+
+        public async Task<int> DeletePurchaseAsync(int purchaseId)
+        {
+            try
+            {
+                var purchaseResult = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
+                if (purchaseResult is not null)
+                {
+                    return await _purchaseRepository.DeletePurchaseAsync(purchaseResult);
+                }
+                else
+                {
+                    throw new Exception("Object cannot be deleted");
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was deleting changes");
+            }
+        }
+
+        public async Task<PurchaseResponseDTO> GetPurchaseByIdAsync(int purchaseId)
+        {
+            try
+            {
+                return _mapper.Map<PurchaseResponseDTO>(await _purchaseRepository.GetPurchaseByIdAsync(purchaseId));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed wnet it was giving the info");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving purchases information");
+            }
+        }
+
+        public async Task<List<PurchaseResponseDTO>> GetAllPurchasesAsync()
+        {
+            try
+            {
+                return _mapper.Map<List<PurchaseResponseDTO>>(await _purchaseRepository.GetAllPurchasesAsync());
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed wnet it was giving the info");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving purchases information");
+            }
+        }
+
+        public async Task<int> UpdatePurchaseAsync(PurchaseRequestDTO purchaseRequestDTO, int purchaseId)
+        {
+            try
+            {
+                var purchaseResult = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
+                if(purchaseResult is not null)
+                {
+                    purchaseResult.Amount = purchaseRequestDTO.Amount;
+                    purchaseResult.PurchaseDate = purchaseRequestDTO.PurchaseDate;
+                    purchaseResult.MedicineId = purchaseRequestDTO.MedicineId;
+                    purchaseResult.CustomerId = purchaseRequestDTO.CustomerId;
+                    return await _purchaseRepository.UpdatePurchaseAsync(purchaseResult);
+                }
+                else
+                {
+                    throw new Exception("Update uchun Bill mavjud emas");
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it updating changes");
+            }
+        }
+    }
+}

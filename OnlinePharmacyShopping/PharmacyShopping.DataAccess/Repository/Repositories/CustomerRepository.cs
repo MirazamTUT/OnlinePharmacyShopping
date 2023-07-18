@@ -27,7 +27,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it saved changes");
+                throw new Exception("Operation was failed when it was adding changes");
             }
         }
 
@@ -45,7 +45,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it saved changes");
+                throw new Exception("Operation was failed when it was deleting changes");
             }
         }
 
@@ -61,11 +61,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was given the info");
+                throw new Exception("Operation was failed wnet it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it saved changes");
+                throw new Exception("Operation was failed when it was giving customers information");
             }
         }
 
@@ -81,11 +81,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was given the info");
+                throw new Exception("Operation was failed wnet it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it saved changes");
+                throw new Exception("Operation was failed when it was giving customers information");
             }
         }
 
@@ -103,7 +103,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it saved changes");
+                throw new Exception("Operation was failed when it was updating changes");
             }
         }
     }

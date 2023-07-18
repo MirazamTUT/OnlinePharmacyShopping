@@ -35,15 +35,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> DeletePurchaseAsync(PurchaseRequestDTO purchaseRequestDTO, int purchaseId)
+        public async Task<int> DeletePurchaseAsync(int purchaseId)
         {
             try
             {
                 var purchaseResult = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
                 if (purchaseResult is not null)
                 {
-                    purchaseResult = _mapper.Map<Purchase>(purchaseRequestDTO);
-                    purchaseResult.PurchaseId = purchaseId;
                     return await _purchaseRepository.DeletePurchaseAsync(purchaseResult);
                 }
                 else

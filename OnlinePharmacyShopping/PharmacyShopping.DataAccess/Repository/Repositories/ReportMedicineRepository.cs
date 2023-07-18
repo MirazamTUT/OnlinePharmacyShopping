@@ -26,11 +26,23 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ReportMedicine>> GetAllReportByMedicineIdsAsync(int id) => await _context.ReportMedicines
+        public async Task<List<ReportMedicine>> GetAllReportMedicineByReportId(int id) => await _context.ReportMedicines
+            .Include(u => u.Medicine)
+            .Include(u => u.Report)
+            .AsSingleQuery()
+            .Where(u => u.ReportId == id)
+            .ToListAsync();
+
+        public async Task<List<ReportMedicine>> GetAllReportMedicine() => await _context.ReportMedicines
+            .Include(u => u.Medicine)
+            .Include(u => u.Report)
+            .ToListAsync();
+
+        public async Task<List<ReportMedicine>> GetAllReportMedicineByMedicineIdAsync(int id) => await _context.ReportMedicines
             .Include(u => u.Medicine)
             .Include(u => u.Report)
             .AsSplitQuery()
-            .Where(u => u.ReportMedicineId == id)
+            .Where(u => u.MedicineId == id)
             .ToListAsync();
 
         public async Task UpdateReportMedicineAsync(ReportMedicine reportMedicine)

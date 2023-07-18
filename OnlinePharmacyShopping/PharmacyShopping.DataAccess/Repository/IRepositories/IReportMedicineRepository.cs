@@ -10,6 +10,10 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 
         Task DeleteReportMedicineAsync(ReportMedicine reportMedicine);
 
-        Task<List<ReportMedicine>> GetAllReportByMedicineIdsAsync(int id);
+        Task<List<ReportMedicine>> GetAllReportMedicineByMedicineIdAsync(int id);
+
+        Task<List<ReportMedicine>> GetAllReportMedicine();
+
+        Task<List<ReportMedicine>> GetAllReportMedicineByReportId(int id);
     }
 }

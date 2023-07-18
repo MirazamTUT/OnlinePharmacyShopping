@@ -39,5 +39,4 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             await _context.SaveChangesAsync();
         }
     }
-
 }

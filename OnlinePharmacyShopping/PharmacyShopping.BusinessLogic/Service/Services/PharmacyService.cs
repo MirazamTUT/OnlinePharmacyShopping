@@ -53,7 +53,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 resultCheckingPharmasy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
                 resultCheckingPharmasy.PharmacyId = id;
-                return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+                return await _repository.UpdatePharmacyAsync(resultCheckingPharmasy);
             }
             else
             {

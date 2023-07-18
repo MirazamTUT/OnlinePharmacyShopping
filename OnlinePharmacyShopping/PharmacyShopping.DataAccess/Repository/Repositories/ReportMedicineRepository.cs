@@ -36,6 +36,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         public async Task<List<ReportMedicine>> GetAllReportMedicine() => await _context.ReportMedicines
             .Include(u => u.Medicine)
             .Include(u => u.Report)
+            .AsSingleQuery()
             .ToListAsync();
 
         public async Task<List<ReportMedicine>> GetAllReportMedicineByMedicineIdAsync(int id) => await _context.ReportMedicines

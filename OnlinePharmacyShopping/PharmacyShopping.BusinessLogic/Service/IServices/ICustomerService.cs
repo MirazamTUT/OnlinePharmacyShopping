@@ -9,7 +9,7 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<int> UpdateCustomerAsync(CustomerRequestDTO customerRequestDTO, int id);
 
-        Task<int> DeleteCustomerAsync(CustomerRequestDTO customerRequestDTO, int id);
+        Task<int> DeleteCustomerAsync(int id);
 
         Task<CustomerResponseDTO> GetCustomerByIdAsync(int id);
 

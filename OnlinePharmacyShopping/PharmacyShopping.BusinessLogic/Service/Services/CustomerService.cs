@@ -28,8 +28,6 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             var customerResult = await _customerRepository.GetCustomerByIdAsync(id);
             if(customerResult is not null) 
             {
-                customerResult = _mapper.Map<Customer>(customerRequestDTO);
-                customerResult.CustomerId = id;
                 return await _customerRepository.DeleteCustomerAsync(customerResult);
             }
             else

@@ -12,7 +12,7 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<List<PharmacyResponseDTO>> GetAllPharmacyAsync();
 
-        Task<int> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO);
+        Task<int> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO, int id);
 
         Task<int> DeletePharmacyAsync(int id);
     }

@@ -1,42 +1,64 @@
-﻿using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+﻿using AutoMapper;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
+using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services
 {
     public class PharmacyService : IPharmacyService
     {
+        private readonly IMapper _mapper;
         private readonly IPharmacyRepository _repository;
 
-        public PharmacyService(IPharmacyRepository repository)
+        public PharmacyService(IPharmacyRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public Task<int> AddPharmacyAsync(PharmacyRequestDTO pharmacyRequestDto)
+        public async Task<int> AddPharmacyAsync(PharmacyRequestDTO pharmacyRequestDto)
         {
-            throw new NotImplementedException();
+            return await _repository.AddPharmacyAsync(_mapper.Map<Pharmacy>(pharmacyRequestDto));
         }
 
-        public Task<int> DeletePharmacyAsync(int id)
+        public async Task<int> DeletePharmacyAsync(int id)
         {
-            throw new NotImplementedException();
+            var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
+            if (resultCheckingPharmasy is not null)
+            {
+                return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+            }
+            else
+            {
+                throw new Exception("Xatolik yuzberdi");
+            }
         }
 
-        public Task<List<PharmacyResponseDTO>> GetAllPharmacyAsync()
+        public async Task<List<PharmacyResponseDTO>> GetAllPharmacyAsync()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<PharmacyResponseDTO>>(await  _repository.GetAllPharmacyAsync());
         }
 
-        public Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
+        public async Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<PharmacyResponseDTO>(await _repository.GetPharmacyByIdAsync(id));
         }
 
-        public Task<int> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO)
+        public async Task<int> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO, int id)
         {
-            throw new NotImplementedException();
+            var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
+            if (resultCheckingPharmasy is not null)
+            {
+                resultCheckingPharmasy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
+                resultCheckingPharmasy.PharmacyId = id;
+                return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+            }
+            else
+            {
+                throw new Exception("Xatolik yuzberdi");
+            }
         }
     }
 }

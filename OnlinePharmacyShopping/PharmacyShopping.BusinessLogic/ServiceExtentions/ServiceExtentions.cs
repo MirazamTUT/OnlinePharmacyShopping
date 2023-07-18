@@ -19,6 +19,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IDataBaseService, DataBaseService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
         }
     }
 }

@@ -5,7 +5,6 @@ namespace PharmacyShopping.DataAccess.DbConnection
 {
     public class PharmacyDbContext : DbContext
     {
-    
         public PharmacyDbContext(DbContextOptions<PharmacyDbContext> options) :
             base(options)
         {
@@ -22,6 +21,8 @@ namespace PharmacyShopping.DataAccess.DbConnection
         public DbSet<Purchase> Purchases { get; set; }
 
         public DbSet<Report> Reports { get; set; }
+
+        public DbSet<ReportMedicine> ReportMedicines { get; set; }
 
         public DbSet<Sales> Sales { get; set; }
     }

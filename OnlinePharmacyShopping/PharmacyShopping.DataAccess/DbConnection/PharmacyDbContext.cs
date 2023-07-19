@@ -22,6 +22,8 @@ namespace PharmacyShopping.DataAccess.DbConnection
 
         public DbSet<Report> Reports { get; set; }
 
+        public DbSet<ReportMedicine> ReportMedicines { get; set; }
+
         public DbSet<Sales> Sales { get; set; }
     }
 }

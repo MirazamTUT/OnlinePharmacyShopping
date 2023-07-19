@@ -8,22 +8,21 @@ using PharmacyShopping.DataAccess.Models;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services
 {
-    public class PurchaseService : IPurchaseService
+    public class MedicineService : IMedicineService
     {
-        private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMapper _mapper;
+        private readonly IMedicineRepository _medicineRepository;
 
-        public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper)
+        public MedicineService(IMedicineRepository medicineRepository, IMapper mapper)
         {
-            _purchaseRepository = purchaseRepository;
+            _medicineRepository = medicineRepository;
             _mapper = mapper;
         }
-
-        public async Task<int> AddPurchaseAsync(PurchaseRequestDTO purchaseRequestDTO)
+        public async Task<int> AddMedicineAsync(MedicineRequestDTO medicineRequestDTO)
         {
             try
             {
-                return await _purchaseRepository.AddPurchaseAsync(_mapper.Map<Purchase>(purchaseRequestDTO));
+                return await _medicineRepository.AddMedicineAsync(_mapper.Map<Medicine>(medicineRequestDTO));
             }
             catch (DbUpdateException ex)
             {
@@ -35,14 +34,14 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> DeletePurchaseAsync(int purchaseId)
+        public async Task<int> DeleteMedicineAsync(int medicineId)
         {
             try
             {
-                var purchaseResult = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
-                if (purchaseResult is not null)
+                var medicineResult = await _medicineRepository.GetMedicineByIdAsync(medicineId);
+                if(medicineResult is not null)
                 {
-                    return await _purchaseRepository.DeletePurchaseAsync(purchaseResult);
+                    return await _medicineRepository.DeleteMedicineAsync(medicineResult);
                 }
                 else
                 {
@@ -59,11 +58,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<PurchaseResponseDTO> GetPurchaseByIdAsync(int purchaseId)
+        public async Task<MedicineResponseDTO> GetMedicineByIdAsync(int medicineId)
         {
             try
             {
-                return _mapper.Map<PurchaseResponseDTO>(await _purchaseRepository.GetPurchaseByIdAsync(purchaseId));
+                return _mapper.Map<MedicineResponseDTO>(await _medicineRepository.GetMedicineByIdAsync(medicineId));
             }
             catch (InvalidOperationException ex)
             {
@@ -71,15 +70,15 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving purchases information");
+                throw new Exception("Operation was failed when it was giving medicines information");
             }
         }
 
-        public async Task<List<PurchaseResponseDTO>> GetAllPurchasesAsync()
+        public async Task<List<MedicineResponseDTO>> GetMedicinesAsync()
         {
             try
             {
-                return _mapper.Map<List<PurchaseResponseDTO>>(await _purchaseRepository.GetAllPurchasesAsync());
+                return _mapper.Map<List<MedicineResponseDTO>>(await _medicineRepository.GetAllMedicinesAsync());
             }
             catch (InvalidOperationException ex)
             {
@@ -87,20 +86,20 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving purchases information");
+                throw new Exception("Operation was failed when it was giving medicines information");
             }
         }
 
-        public async Task<int> UpdatePurchaseAsync(PurchaseRequestDTO purchaseRequestDTO, int purchaseId)
+        public async Task<int> UpdateMedicineAsync(MedicineRequestDTO medicineRequestDTO, int medicineId)
         {
             try
             {
-                var purchaseResult = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
-                if(purchaseResult is not null)
+                var medicineResult = await _medicineRepository.GetMedicineByIdAsync(medicineId);
+                if(medicineResult is not null)
                 {
-                    purchaseResult = _mapper.Map<Purchase>(purchaseRequestDTO);
-                    purchaseResult.PurchaseId = purchaseId;
-                    return await _purchaseRepository.UpdatePurchaseAsync(purchaseResult);
+                    medicineResult = _mapper.Map<Medicine>(medicineRequestDTO);
+                    medicineResult.MedicineId = medicineId;
+                    return await _medicineRepository.UpdateMedicineAsync(medicineResult);
                 }
                 else
                 {

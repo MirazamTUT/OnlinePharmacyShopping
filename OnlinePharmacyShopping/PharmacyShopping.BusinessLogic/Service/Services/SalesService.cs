@@ -28,7 +28,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             var salesResult = await _salesRepository.GetSalesByCustomerIdAsync(id);
             if(salesResult is not null) 
             {
-                return await _salesRepository.DeleteSalesAsync(_mapper.Map<Sales>(salesResult));
+                return await _salesRepository.DeleteSalesAsync(salesResult);
             }
             else
             {

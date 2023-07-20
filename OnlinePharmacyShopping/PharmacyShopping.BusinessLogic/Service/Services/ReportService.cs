@@ -84,7 +84,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             else
             {
-                throw new Exception("Delete didn't work");
+                throw new Exception("Update didn't work");
             }
         }
     }

@@ -58,6 +58,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                     .Include(x => x.Sales)
                     .Include(x => x.Customer)
                     .Include(x => x.Medicine)
+                    .AsSplitQuery()
                     .ToListAsync();
             }
             catch (InvalidOperationException ex)
@@ -78,6 +79,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                     .Include(x => x.Sales)
                     .Include(x => x.Customer)
                     .Include(x => x.Medicine)
+                    .AsSplitQuery()
                     .FirstOrDefaultAsync(x => x.PurchaseId == id);
             }
             catch (InvalidOperationException ex)

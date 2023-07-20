@@ -31,11 +31,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         public async Task<List<Report>> GetAllReportsAsync() => await _context.Reports
             .Include(u => u.Customer)
             .Include(u => u.ReportMedicines)
+            .AsSplitQuery()
             .ToListAsync();
 
         public async Task<Report> GetReportByIdAsync(int id) => await _context.Reports
             .Include(u => u.Customer)
             .Include(u => u.ReportMedicines)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.ReportId == id);
 
         public async Task<int> UpdateReportAsync(Report report)

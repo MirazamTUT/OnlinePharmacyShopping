@@ -8,7 +8,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
     public class PharmacyRepository : IPharmacyRepository
     {
         private readonly PharmacyDbContext _context;
-        
+
         public PharmacyRepository(PharmacyDbContext context)
         {
             _context = context;
@@ -29,14 +29,16 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         }
 
         public async Task<List<Pharmacy>> GetAllPharmacyAsync() => await _context.Pharmacies
-                .Include(u => u.Sales)
-                .Include(u => u.Reports)
-                .ToListAsync();
+            .Include(u => u.Sales)
+            .Include(u => u.Reports)
+            .AsSplitQuery()
+            .ToListAsync();
 
         public async Task<Pharmacy> GetPharmacyByIdAsync(int id) => await _context.Pharmacies
-                .Include(u => u.Sales)
-                .Include(u => u.Reports)
-                .FirstOrDefaultAsync(u => u.PharmacyId == id);
+            .Include(u => u.Sales)
+            .Include(u => u.Reports)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(u => u.PharmacyId == id);
 
         public async Task<int> UpdatePharmacyAsync(Pharmacy pharmacy)
         {

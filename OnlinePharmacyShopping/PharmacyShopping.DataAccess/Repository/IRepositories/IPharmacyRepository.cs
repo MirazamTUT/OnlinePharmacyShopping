@@ -1,6 +1,4 @@
-﻿using PharmacyShopping.DataAccess.DbConnection;
-using PharmacyShopping.DataAccess.Models;
-using System;
+﻿using PharmacyShopping.DataAccess.Models;
 
 namespace PharmacyShopping.DataAccess.Repository.IRepositories
 {

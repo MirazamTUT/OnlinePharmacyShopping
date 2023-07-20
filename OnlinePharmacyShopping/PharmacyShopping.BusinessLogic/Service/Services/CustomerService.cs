@@ -87,7 +87,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving medicines information");
+                throw new Exception("Operation was failed when it was giving customers information");
             }           
         }
 

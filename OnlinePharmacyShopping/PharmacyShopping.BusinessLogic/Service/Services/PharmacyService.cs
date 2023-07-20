@@ -39,10 +39,10 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
-                if (resultCheckingPharmasy is not null)
+                var resultCheckingPharmacy = await _repository.GetPharmacyByIdAsync(id);
+                if (resultCheckingPharmacy is not null)
                 {
-                    return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+                    return await _repository.DeletePharmacyAsync(resultCheckingPharmacy);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-            public async Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
+        public async Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
         {
             try
             {
@@ -95,12 +95,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
-                if (resultCheckingPharmasy is not null)
+                var resultCheckingPharmacy = await _repository.GetPharmacyByIdAsync(id);
+                if (resultCheckingPharmacy is not null)
                 {
-                    resultCheckingPharmasy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
-                    resultCheckingPharmasy.PharmacyId = id;
-                    return await _repository.UpdatePharmacyAsync(resultCheckingPharmasy);
+                    resultCheckingPharmacy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
+                    resultCheckingPharmacy.PharmacyId = id;
+                    return await _repository.UpdatePharmacyAsync(resultCheckingPharmacy);
                 }
                 else
                 {

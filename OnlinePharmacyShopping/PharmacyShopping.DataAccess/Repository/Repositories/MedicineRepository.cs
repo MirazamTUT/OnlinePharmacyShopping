@@ -32,12 +32,14 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             .Include(u => u.ReportMedicines)
             .Include(u => u.Purchase)
             .Include(u => u.DataBase)
+            .AsSplitQuery()
             .ToListAsync();
 
         public async Task<Medicine> GetMedicineByIdAsync(int id) => await _context.Medicines
             .Include(u => u.ReportMedicines)
             .Include(u => u.Purchase)
             .Include(u => u.DataBase)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.MedicineId == id);
 
         public async Task<int> UpdateMedicineAsync(Medicine medicine)

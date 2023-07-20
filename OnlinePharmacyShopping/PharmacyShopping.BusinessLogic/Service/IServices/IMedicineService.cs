@@ -15,6 +15,5 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<int> UpdateMedicineAsync(MedicineRequestDTO medicineRequestDTO, int medicineId);
 
-
     }
 }

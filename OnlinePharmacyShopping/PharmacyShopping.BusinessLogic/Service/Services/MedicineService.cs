@@ -69,7 +69,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was giving the info");
+                throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was giving the info");
+                throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was giving the info");
+                throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {

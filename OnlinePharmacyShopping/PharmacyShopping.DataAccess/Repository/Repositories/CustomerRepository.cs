@@ -1,7 +1,7 @@
-﻿using PharmacyShopping.DataAccess.DbConnection;
+﻿using Microsoft.EntityFrameworkCore;
+using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyShopping.DataAccess.Repository.Repositories
 {
@@ -13,6 +13,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             _pharmacyDbContext = pharmacyDbContext;
         }
+
         public async Task<int> AddCustomerAsync(Customer customer)
         {
             try
@@ -62,11 +63,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was giving the info");
+                throw new Exception("Operation was failed when it was giving the information");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving customers information");
+                throw new Exception("Operation was failed when it was giving Customers information");
             }
         }
 
@@ -83,11 +84,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed wnet it was giving the info");
+                throw new Exception("Operation was failed when it was giving the information");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving customers information");
+                throw new Exception("Operation was failed when it was giving CustomerById information");
             }
         }
 

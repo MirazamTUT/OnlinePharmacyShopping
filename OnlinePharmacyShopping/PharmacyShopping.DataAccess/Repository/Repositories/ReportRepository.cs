@@ -16,35 +16,96 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
 
         public async Task<int> AddReportAsync(Report report)
         {
-            _context.Reports.Add(report);
-            await _context.SaveChangesAsync();
-            return report.ReportId;
+            try
+            {
+                _context.Reports.Add(report);
+                await _context.SaveChangesAsync();
+                return report.ReportId;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was adding changes");
+            }
         }
 
         public async Task<int> DeleteReportAsync(Report report)
         {
-            _context.Reports.Remove(report);
-            await _context.SaveChangesAsync();
-            return report.ReportId;
+            try
+            {
+                _context.Reports.Remove(report);
+                await _context.SaveChangesAsync();
+                return report.ReportId;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was deleting changes");
+            }
         }
 
-        public async Task<List<Report>> GetAllReportsAsync() => await _context.Reports
-            .Include(u => u.Customer)
-            .Include(u => u.ReportMedicines)
-            .AsSplitQuery()
-            .ToListAsync();
+        public async Task<List<Report>> GetAllReportsAsync()
+        {
+            try
+            {
+                return await _context.Reports
+                   .Include(u => u.Customer)
+                   .Include(u => u.ReportMedicines)
+                   .AsSplitQuery()
+                   .ToListAsync();
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed when it was giving the information");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving Reports information");
+            }
+        }
 
-        public async Task<Report> GetReportByIdAsync(int id) => await _context.Reports
-            .Include(u => u.Customer)
-            .Include(u => u.ReportMedicines)
-            .AsSplitQuery()
-            .FirstOrDefaultAsync(u => u.ReportId == id);
+        public async Task<Report> GetReportByIdAsync(int id)
+        {
+            try
+            {
+                return await _context.Reports
+                    .Include(u => u.Customer)
+                    .Include(u => u.ReportMedicines)
+                    .AsSplitQuery()
+                    .FirstOrDefaultAsync(u => u.ReportId == id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed when it was giving the information");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving ReportById information");
+            }
+        }
 
         public async Task<int> UpdateReportAsync(Report report)
         {
-            _context.Reports.Update(report);
-            await _context.SaveChangesAsync();
-            return report.ReportId;
+            try
+            {
+                _context.Reports.Update(report);
+                await _context.SaveChangesAsync();
+                return report.ReportId;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was updating changes");
+            }
         }
     }
 }

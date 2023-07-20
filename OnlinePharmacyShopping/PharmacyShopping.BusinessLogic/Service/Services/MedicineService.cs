@@ -12,11 +12,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
     {
         private readonly IMapper _mapper;
         private readonly IMedicineRepository _medicineRepository;
+        private readonly IReportMedicineRepository _reportMedicineRepository;   
 
-        public MedicineService(IMedicineRepository medicineRepository, IMapper mapper)
+        public MedicineService(IMedicineRepository medicineRepository, IMapper mapper, IReportMedicineRepository reportMedicineRepository)
         {
             _medicineRepository = medicineRepository;
             _mapper = mapper;
+            _reportMedicineRepository = reportMedicineRepository;
         }
         
         public async Task<int> AddMedicineAsync(MedicineRequestDTO medicineRequestDTO)
@@ -88,6 +90,21 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             catch (Exception ex)
             {
                 throw new Exception("Operation was failed when it was giving medicines information");
+            }
+        }
+        async Task<List<int>> GetAllReportMedicineByMedicineIdAsync(int reportId)
+        {
+            try
+            {
+                return _mapper.Map<List<int>>(await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(reportId));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed wnet it was giving the info");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving reports information");
             }
         }
 

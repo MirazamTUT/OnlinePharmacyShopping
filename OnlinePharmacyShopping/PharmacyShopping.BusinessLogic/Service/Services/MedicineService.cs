@@ -18,6 +18,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             _medicineRepository = medicineRepository;
             _mapper = mapper;
         }
+        
         public async Task<int> AddMedicineAsync(MedicineRequestDTO medicineRequestDTO)
         {
             try

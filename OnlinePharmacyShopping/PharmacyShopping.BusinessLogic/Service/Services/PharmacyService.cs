@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
@@ -20,44 +21,99 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
 
         public async Task<int> AddPharmacyAsync(PharmacyRequestDTO pharmacyRequestDto)
         {
-            return await _repository.AddPharmacyAsync(_mapper.Map<Pharmacy>(pharmacyRequestDto));
+            try
+            {
+                return await _repository.AddPharmacyAsync(_mapper.Map<Pharmacy>(pharmacyRequestDto));
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was adding changes");
+            }           
         }
 
         public async Task<int> DeletePharmacyAsync(int id)
         {
-            var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
-            if (resultCheckingPharmasy is not null)
+            try
             {
-                return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+                var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
+                if (resultCheckingPharmasy is not null)
+                {
+                    return await _repository.DeletePharmacyAsync(resultCheckingPharmasy);
+                }
+                else
+                {
+                    throw new Exception("Object cannot be deleted");
+                }
             }
-            else
+            catch (DbUpdateException ex)
             {
-                throw new Exception("Object cannot be deleted");
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was deleting changes");
             }
         }
 
         public async Task<List<PharmacyResponseDTO>> GetAllPharmacyAsync()
         {
-            return _mapper.Map<List<PharmacyResponseDTO>>(await  _repository.GetAllPharmacyAsync());
+            try
+            {
+                return _mapper.Map<List<PharmacyResponseDTO>>(await _repository.GetAllPharmacyAsync());
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed when it was giving the info");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving pharmacies information");
+            }
         }
 
-        public async Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
+            public async Task<PharmacyResponseDTO> GetPharmacyByIdAsync(int id)
         {
-            return _mapper.Map<PharmacyResponseDTO>(await _repository.GetPharmacyByIdAsync(id));
+            try
+            {
+                return _mapper.Map<PharmacyResponseDTO>(await _repository.GetPharmacyByIdAsync(id));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Operation was failed when it was giving the info");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was giving pharmacies information");
+            }
         }
 
         public async Task<int> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO, int id)
         {
-            var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
-            if (resultCheckingPharmasy is not null)
+            try
             {
-                resultCheckingPharmasy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
-                resultCheckingPharmasy.PharmacyId = id;
-                return await _repository.UpdatePharmacyAsync(resultCheckingPharmasy);
+                var resultCheckingPharmasy = await _repository.GetPharmacyByIdAsync(id);
+                if (resultCheckingPharmasy is not null)
+                {
+                    resultCheckingPharmasy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
+                    resultCheckingPharmasy.PharmacyId = id;
+                    return await _repository.UpdatePharmacyAsync(resultCheckingPharmasy);
+                }
+                else
+                {
+                    throw new Exception("Object cannot be updated");
+                }
             }
-            else
+            catch (DbUpdateException ex)
             {
-                throw new Exception("Object cannot be updated");
+                throw new Exception("Connection between database is failed");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it updating changes");
             }
         }
     }

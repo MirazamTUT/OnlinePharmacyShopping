@@ -32,7 +32,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             else
             {
-                throw new Exception("Xatolik yuzberdi");
+                throw new Exception("Object cannot be deleted");
             }
         }
 
@@ -57,7 +57,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             else
             {
-                throw new Exception("Xatolik yuzberdi");
+                throw new Exception("Object cannot be updated");
             }
         }
     }

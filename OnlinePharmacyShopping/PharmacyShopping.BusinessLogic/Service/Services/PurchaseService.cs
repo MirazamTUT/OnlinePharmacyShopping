@@ -104,7 +104,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 }
                 else
                 {
-                    throw new Exception("Update uchun Bill mavjud emas");
+                    throw new Exception("Object cannot be updated");
                 }
             }
             catch (DbUpdateException ex)

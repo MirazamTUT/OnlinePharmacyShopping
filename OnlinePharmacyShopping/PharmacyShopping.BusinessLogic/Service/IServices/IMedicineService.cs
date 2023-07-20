@@ -11,10 +11,17 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<List<MedicineResponseDTO>> GetMedicinesAsync();
 
+<<<<<<< HEAD
         Task<List<int>> GetAllReportMedicineByMedicineIdAsync(int reportId);
 
         Task<int> DeleteMedicineAsync(int medicineId);
 
         Task<int> UpdateMedicineAsync(MedicineRequestDTO medicineRequestDTO, int medicineId);
+=======
+        Task<int> DeleteMedicineAsync(int medicineId);
+
+        Task<int> UpdateMedicineAsync(MedicineRequestDTO medicineRequestDTO, int medicineId);
+
+>>>>>>> b700e155ba155bfce2e61fb6f534231594c258dc
     }
 }

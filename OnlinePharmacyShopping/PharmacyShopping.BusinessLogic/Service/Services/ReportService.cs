@@ -19,6 +19,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             _mapper = mapper;
             _reportMedicineRepository = reportMedicineRepository;
         }
+        
         public async Task<int> AddReportAsync(ReportRequestDTO reportRequestDTO)
         {
             var resultReportId = await _reportRepository.AddReportAsync(_mapper.Map<Report>(reportRequestDTO));

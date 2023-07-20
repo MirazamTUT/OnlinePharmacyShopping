@@ -31,6 +31,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         public async Task<DataBase> GetDataBaseAsync() => await _context.DataBases
             .Include(u => u.Pharmacy)
             .Include(u => u.Medicine)
+            .AsSplitQuery()
             .FirstAsync();
 
         public async Task<int> UpdateDataBaseAsync(DataBase dataBase)

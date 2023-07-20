@@ -8,6 +8,6 @@
 
         public int CustomerId { get; set; }
 
-        public int MedicineId { get; set; }
+        public List<int> MedicineId { get; set; }
     }
 }

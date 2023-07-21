@@ -34,6 +34,30 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
+        public async Task<int> DeleteDataBaseAsync(int id)
+        {
+            try
+            {
+                var resultDatabase = await _dataBaseRepository.GetDataBaseAsync();
+                if (resultDatabase is not null) 
+                {
+                    return await _dataBaseRepository.DeleteDataBaseAsync(resultDatabase);
+                }
+                else
+                {
+                    throw new Exception("Object didn't find for deleting");
+                }
+            }
+            catch(DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Operation was failed when it was deleting changes");
+            }
+        }
+
         public async Task<DataBaseResponseDTO> GetDataBaseAsync()
         {
             try
@@ -47,6 +71,32 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             catch (Exception ex)
             {
                 throw new Exception("Operation was failed when it was giving DataBase information");
+            }
+        }
+
+        public async Task<int> UpdateDataBaseAsync(DataBase dataBase, int id)
+        {
+            try
+            {
+                var resultDataBase = await _dataBaseRepository.GetDataBaseAsync();
+                if (resultDataBase is not null)
+                {
+                    resultDataBase = _mapper.Map<DataBase>(dataBase);
+                    resultDataBase.DataBaseId = id;
+                    return await _dataBaseRepository.UpdateDataBaseAsync(resultDataBase);
+                }
+                else
+                {
+                    throw new Exception("Object didn't find for updating");
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Operation was failed when it was Updating DataBase information");
             }
         }
     }

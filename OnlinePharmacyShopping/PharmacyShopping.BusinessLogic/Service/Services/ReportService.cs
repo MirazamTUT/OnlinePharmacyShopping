@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
-using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
+using PharmacyShopping.DataAccess.Models;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services
 {

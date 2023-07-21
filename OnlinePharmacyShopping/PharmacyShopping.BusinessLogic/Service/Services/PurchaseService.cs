@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
-using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.DataAccess.Models;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services

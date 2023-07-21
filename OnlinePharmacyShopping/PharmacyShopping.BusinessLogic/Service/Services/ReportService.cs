@@ -51,7 +51,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> DeleteReportAsync(int Id)
+        public async Task<int> DeleteReportAsync(int id)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<ReportResponseDTO> GetReportByIdAsync(int Id)
+        public async Task<ReportResponseDTO> GetReportByIdAsync(int id)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int Id)
+        public async Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int id)
         {
             try
             {

@@ -12,8 +12,8 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 
         Task<List<ReportMedicine>> GetAllReportMedicineByMedicineIdAsync(int id);
 
-        Task<List<ReportMedicine>> GetAllReportMedicine();
+        Task<List<ReportMedicine>> GetAllReportMedicineAsync();
 
-        Task<List<ReportMedicine>> GetAllReportMedicineByReportId(int id);
+        Task<List<ReportMedicine>> GetAllReportMedicineByReportIdAsync(int id);
     }
 }

@@ -56,7 +56,7 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -77,11 +77,11 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<ActionResult<List<MedicineResponseDTO>>> GetAllMedicine()
         {
             try
@@ -98,7 +98,7 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 

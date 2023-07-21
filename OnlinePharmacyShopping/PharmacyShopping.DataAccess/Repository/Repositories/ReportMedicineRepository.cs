@@ -49,7 +49,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<ReportMedicine>> GetAllReportMedicineByReportId(int id)
+        public async Task<List<ReportMedicine>> GetAllReportMedicineByReportIdAsync(int id)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<ReportMedicine>> GetAllReportMedicine()
+        public async Task<List<ReportMedicine>> GetAllReportMedicineAsync()
         {
             try
             {

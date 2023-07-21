@@ -93,11 +93,18 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<List<int>> GetAllReportMedicineByMedicineIdAsync(int reportId)
+        public async Task<List<int>> GetAllReportMedicineByMedicineIdAsync(int id)
         {
             try
             {
-                return _mapper.Map<List<int>>(await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(reportId));
+                var resultOfMedicine = await _medicineRepository.GetMedicineByIdAsync(id);
+                var resultOfReportMedicines = await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(id);
+                var resultOfReportIds = new List<int>();
+                foreach(ReportMedicine reportMedicine in resultOfReportMedicines)
+                {
+                    resultOfReportIds.Add(reportMedicine.ReportId);
+                }
+                return resultOfReportIds;
             }
             catch (InvalidOperationException ex)
             {

@@ -27,13 +27,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return await _medicineRepository.AddMedicineAsync(_mapper.Map<Medicine>(medicineRequestDTO));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
                 throw new Exception("Connection between database is failed");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -67,13 +71,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<MedicineResponseDTO>(await _medicineRepository.GetMedicineByIdAsync(medicineId));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving medicines information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -83,13 +91,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<List<MedicineResponseDTO>>(await _medicineRepository.GetAllMedicinesAsync());
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving medicines information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -99,13 +111,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<List<int>>(await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(reportId));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving reports information");
+                throw new Exception(ex.Message);
             }
         }
 

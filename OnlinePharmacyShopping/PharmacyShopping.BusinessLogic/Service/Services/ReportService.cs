@@ -37,13 +37,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 }
                 return resultReportId;
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
                 throw new Exception("Connection between database is failed");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -82,13 +86,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving reports information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -98,13 +106,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(Id));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving reports information");
+                throw new Exception(ex.Message);
             }
         }
 

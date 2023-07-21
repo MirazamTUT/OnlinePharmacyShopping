@@ -25,13 +25,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return await _repository.AddPharmacyAsync(_mapper.Map<Pharmacy>(pharmacyRequestDto));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
                 throw new Exception("Connection between database is failed");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                throw new Exception(ex.Message);
             }           
         }
 
@@ -65,13 +69,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<List<PharmacyResponseDTO>>(await _repository.GetAllPharmacyAsync());
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving pharmacies information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -81,13 +89,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<PharmacyResponseDTO>(await _repository.GetPharmacyByIdAsync(id));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
                 throw new Exception("Operation was failed when it was giving the info");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving pharmacies information");
+                throw new Exception(ex.Message);
             }
         }
 

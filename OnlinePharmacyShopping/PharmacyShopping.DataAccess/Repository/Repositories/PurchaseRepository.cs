@@ -1,7 +1,7 @@
-﻿using PharmacyShopping.DataAccess.DbConnection;
+﻿using Microsoft.EntityFrameworkCore;
+using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyShopping.DataAccess.Repository.Repositories
 {
@@ -63,11 +63,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the info");
+                throw new Exception("Operation was failed when it was giving the information");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving purchases information");
+                throw new Exception("Operation was failed when it was giving Purchases information");
             }
         }
 
@@ -84,11 +84,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the info");
+                throw new Exception("Operation was failed when it was giving the information");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving purchases information");
+                throw new Exception("Operation was failed when it was giving PurchaseById information");
             }
         }
 

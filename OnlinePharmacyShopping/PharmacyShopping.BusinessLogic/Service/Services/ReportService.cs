@@ -35,9 +35,9 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             return resultReportId;
         }
 
-        public async Task<int> DeleteReportAsync(int Id)
+        public async Task<int> DeleteReportAsync(int id)
         {
-            var reportResult = await _reportRepository.GetReportByIdAsync(Id);
+            var reportResult = await _reportRepository.GetReportByIdAsync(id);
             if (reportResult is not null)
             {
                 await _reportRepository.DeleteReportAsync(reportResult);
@@ -58,18 +58,18 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
         }
 
-        public async Task<ReportResponseDTO> GetReportByIdAsync(int Id)
+        public async Task<ReportResponseDTO> GetReportByIdAsync(int id)
         {
-            return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(Id));
+            return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(id));
         }
 
-        public async Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int Id)
+        public async Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int id)
         {
-            var reportResult = await _reportRepository.GetReportByIdAsync(Id);
+            var reportResult = await _reportRepository.GetReportByIdAsync(id);
             if (reportResult is not null)
             {
                 reportResult = _mapper.Map<Report>(reportRequestDTO);
-                reportResult.ReportId = Id;
+                reportResult.ReportId = id;
                 var resultReportId = await _reportRepository.UpdateReportAsync(reportResult);
                 foreach (int medicineId in reportRequestDTO.MedicineId)
                 {

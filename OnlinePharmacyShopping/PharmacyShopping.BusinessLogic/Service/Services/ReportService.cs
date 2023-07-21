@@ -37,9 +37,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 }
                 return resultReportId;
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
@@ -51,7 +55,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var reportResult = await _reportRepository.GetReportByIdAsync(Id);
+                var reportResult = await _reportRepository.GetReportByIdAsync(id);
                 if (reportResult is not null)
                 {
                     await _reportRepository.DeleteReportAsync(reportResult);
@@ -82,13 +86,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the info");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving reports information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -96,15 +104,19 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(Id));
+                return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(id));
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the info");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving reports information");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -112,11 +124,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var reportResult = await _reportRepository.GetReportByIdAsync(Id);
+                var reportResult = await _reportRepository.GetReportByIdAsync(id);
                 if (reportResult is not null)
                 {
                     reportResult = _mapper.Map<Report>(reportRequestDTO);
-                    reportResult.ReportId = Id;
+                    reportResult.ReportId = id;
                     var resultReportId = await _reportRepository.UpdateReportAsync(reportResult);
                     foreach (int medicineId in reportRequestDTO.MedicineId)
                     {
@@ -135,13 +147,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                     throw new Exception("Object cannot be updated");
                 }
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
                 throw new Exception("Connection between database is failed");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it updating changes");
+                throw new Exception("Operation was failed when it was updating changes");
             }
         }
     }

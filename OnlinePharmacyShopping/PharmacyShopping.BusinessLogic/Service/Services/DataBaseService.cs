@@ -24,13 +24,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return await _dataBaseRepository.AddDataBaseAsync(_mapper.Map<DataBase>(dataBase));
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -40,13 +44,17 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 return _mapper.Map<DataBaseResponseDTO>(await _dataBaseRepository.GetDataBaseAsync());
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the info");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving DataBase information");
+                throw new Exception(ex.Message);
             }
         }
     }

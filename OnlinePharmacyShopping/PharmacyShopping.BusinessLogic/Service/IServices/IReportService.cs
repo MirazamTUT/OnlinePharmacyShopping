@@ -7,11 +7,11 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
     {
         Task<int> AddReportAsync(ReportRequestDTO reportRequestDTO);
 
-        Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int Id);
+        Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int id);
 
-        Task<int> DeleteReportAsync(int Id);
+        Task<int> DeleteReportAsync(int id);
 
-        Task<ReportResponseDTO> GetReportByIdAsync(int Id);
+        Task<ReportResponseDTO> GetReportByIdAsync(int id);
 
         Task<List<ReportResponseDTO>> GetAllReportsAsync();
     }

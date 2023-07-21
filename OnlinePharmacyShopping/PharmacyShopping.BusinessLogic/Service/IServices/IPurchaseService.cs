@@ -1,5 +1,5 @@
-﻿using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
-using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+﻿using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 
 namespace PharmacyShopping.BusinessLogic.Service.IServices
 {

@@ -55,12 +55,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
                 throw new Exception("Operation was failed when it was deleting changes");
-            }          
+            }
         }
 
         public async Task<List<CustomerResponseDTO>> GetAllCustomersAsync()
@@ -100,7 +100,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }           
+            }         
         }
 
         public async Task<int> UpdateCustomerAsync(CustomerRequestDTO customerRequestDTO, int id)
@@ -125,7 +125,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {

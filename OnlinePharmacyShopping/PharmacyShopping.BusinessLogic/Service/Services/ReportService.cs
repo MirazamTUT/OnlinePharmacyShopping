@@ -72,7 +72,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
@@ -153,7 +153,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {

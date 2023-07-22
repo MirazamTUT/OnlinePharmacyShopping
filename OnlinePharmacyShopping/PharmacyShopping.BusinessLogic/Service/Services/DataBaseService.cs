@@ -43,7 +43,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             try
             {
                 var resultDatabase = await _dataBaseRepository.GetDataBaseAsync();
-                if (resultDatabase is not null) 
+                if (resultDatabase is not null)
                 {
                     return await _dataBaseRepository.DeleteDataBaseAsync(resultDatabase);
                 }

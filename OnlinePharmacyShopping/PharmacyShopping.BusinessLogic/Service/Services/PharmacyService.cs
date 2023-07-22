@@ -36,7 +36,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }           
+            }       
         }
 
         public async Task<int> DeletePharmacyAsync(int id)

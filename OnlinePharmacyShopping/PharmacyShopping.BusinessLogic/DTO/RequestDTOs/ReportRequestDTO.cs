@@ -1,4 +1,7 @@
-﻿namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
+﻿using FluentValidation;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+
+namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 {
     public class ReportRequestDTO
     {
@@ -9,5 +12,15 @@
         public int CustomerId { get; set; }
 
         public List<int> MedicineId { get; set; }
+    }
+}
+
+public class ReportRequestDTOValidation : AbstractValidator<ReportRequestDTO>
+{
+    public ReportRequestDTOValidation()
+    {
+        RuleFor(u => u.ReportDescription)
+            .NotNull().WithMessage("Report ni kiritish kerak.")
+            .NotEmpty().WithMessage("Report bo'sh bo'lishi mumkin emas.");
     }
 }

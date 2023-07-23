@@ -22,7 +22,7 @@ public class SalesRequestDTOValidation : AbstractValidator<SalesRequestDTO>
     public SalesRequestDTOValidation()
     {
         RuleFor(u => u.TotalAmount)
-            .NotNull().WithMessage("Total Amount ni kiritish kerak.")
-            .NotEmpty().WithMessage("total Amount bo'sh bo'lishi mumkin emas.");
+            .NotNull().WithMessage("Total Amount must be entered.")
+            .NotEmpty().WithMessage("total Amount cannot be empty.");
     }
 }

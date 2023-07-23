@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -12,10 +14,12 @@ namespace PharmacyShopping.API.Controllers
     public class MedicineControler : ControllerBase
     {
         private readonly IMedicineService _medicineService;
+        private readonly IValidator<MedicineRequestDTO> _validator;
 
-        public MedicineControler(IMedicineService medicineService)
+        public MedicineControler(IMedicineService medicineService, IValidator<MedicineRequestDTO> validator)
         {
             _medicineService = medicineService;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -23,7 +27,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _medicineService.AddMedicineAsync(medicineRequestDTO);
+                ValidationResult validationResult = await _validator.ValidateAsync(medicineRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _medicineService.AddMedicineAsync(medicineRequestDTO);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {
@@ -31,7 +43,7 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
@@ -107,7 +119,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _medicineService.UpdateMedicineAsync(medicineRequestDTO, id);
+                ValidationResult validationResult = await _validator.ValidateAsync(medicineRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _medicineService.UpdateMedicineAsync(medicineRequestDTO, id);
+                }
+                else
+                {
+                    throw new Exception("Medicine for update is not available.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {

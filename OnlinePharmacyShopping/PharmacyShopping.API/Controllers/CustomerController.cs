@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -12,10 +14,12 @@ namespace PharmacyShopping.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IValidator<CustomerRequestDTO> _validator;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IValidator<CustomerRequestDTO> validator)
         {
             _customerService = customerService;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -23,7 +27,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _customerService.AddCustomerAsync(customerRequestDTO);
+                ValidationResult validationResult = await _validator.ValidateAsync(customerRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _customerService.AddCustomerAsync(customerRequestDTO);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {
@@ -86,7 +98,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _customerService.UpdateCustomerAsync(customerRequestDTO, id);
+                ValidationResult validationResult = await _validator.ValidateAsync(customerRequestDTO);
+                if(validationResult.IsValid)
+                {
+                    return await _customerService.UpdateCustomerAsync(customerRequestDTO, id);
+                }
+                else
+                {
+                    throw new Exception("Customer for update is not available.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {

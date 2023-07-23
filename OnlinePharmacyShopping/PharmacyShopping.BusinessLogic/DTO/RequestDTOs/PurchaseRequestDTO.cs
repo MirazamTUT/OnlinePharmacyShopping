@@ -20,12 +20,12 @@ public class PurchaseRequestDTOValidation : AbstractValidator<PurchaseRequestDTO
     public PurchaseRequestDTOValidation()
     {
         RuleFor(u => u.Amount)
-            .NotNull().WithMessage("Amount kiritish kerak.")
-            .NotEmpty().WithMessage("Amount bo'sh bo'lmasligi kerak.");
+            .NotNull().WithMessage("Amount must be entered.")
+            .NotEmpty().WithMessage("Amount cannot be empty.");
 
         RuleFor(u => u.PurchaseDate)
-            .NotNull().WithMessage("Purchase date ni kiritish kerak.")
-            .NotEmpty().WithMessage("Purchase date bo'sh bo'lishi mumkin emas.")
-            .LessThanOrEqualTo(DateTime.Today).WithMessage("Purchase date bugun yoki bugundan avval bo'lishi kerak.");           
+            .NotNull().WithMessage("Purchase date must be entered.")
+            .NotEmpty().WithMessage("Purchase date cannot be empty.")
+            .LessThanOrEqualTo(DateTime.Today).WithMessage("Purchase date must be today or before today.");           
     }
 }

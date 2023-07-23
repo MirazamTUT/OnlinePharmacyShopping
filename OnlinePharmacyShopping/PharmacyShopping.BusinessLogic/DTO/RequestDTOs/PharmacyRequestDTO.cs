@@ -22,24 +22,24 @@ public class PharmacyRequestDTOValidation : AbstractValidator<PharmacyRequestDTO
     public PharmacyRequestDTOValidation()
     {
         RuleFor(u => u.PharmacyName)
-            .NotNull().WithMessage("Pharmacy Name kiritish kerak.")
-            .NotEmpty().WithMessage("Pharmacy Name bo'sh bo'lishi mumkin emas.")
-            .MinimumLength(2).WithMessage("Pharmacy Name 2 ta belgidan kam bo'lmasligi kerak.")
-            .MaximumLength(15).WithMessage("Pharmacy Name 15 ta belgidan ko'p bo'lmasligi kerak.");
+            .NotNull().WithMessage("Pharmacy Name must be entered.")
+            .NotEmpty().WithMessage("Pharmacy Name cannot be empty.")
+            .MinimumLength(2).WithMessage("Pharmacy Name cannot be less than 2 characters.")
+            .MaximumLength(15).WithMessage("Pharmacy Name cannot be longer than 15 characters.");
 
         RuleFor(u => u.PhoneNumber)
-            .NotNull().WithMessage("Phone Number kiritish kerak.")
-            .NotEmpty().WithMessage("Phone Number bo'sh bo'lishi mumkin emas.");
-          //.Matches(@"^[0-9]{10}$").WithErrorCode("Phone Number noto'g'ri kiritilgan.");
+            .NotNull().WithMessage("Phone Number must be entered.")
+            .NotEmpty().WithMessage("Phone Number cannot be empty.");
+          //.Matches(@"^[0-9]{10}$").WithErrorCode("Entered Phone Number incorrectly.");
 
         RuleFor(u => u.Email)
-            .NotNull().WithMessage("Email kiritish kerak.")
-            .NotEmpty().WithMessage("Email bo'sh bo'lishi mumkin emas.")
-            .EmailAddress().WithMessage("Noto'g'ri Email manzil kiritilgan");
+            .NotNull().WithMessage("Email must be entered.")
+            .NotEmpty().WithMessage("Email cannot be empty.")
+            .EmailAddress().WithMessage("Entered Email incorrectly.");
 
         RuleFor(u => u.Password)
-            .NotNull().WithMessage("Password kiritish kerak.")
-            .NotEmpty().WithMessage("Password bo'sh bo'lishi mumkin emas.")
-            .MinimumLength(8).WithMessage("Password 8 ta belgidan kam bo'lmasligi kerak.");
+            .NotNull().WithMessage("Password must be entered.")
+            .NotEmpty().WithMessage("Password cannot be empty.")
+            .MinimumLength(8).WithMessage("Password cannot be less than 8 characters");
     }
 }

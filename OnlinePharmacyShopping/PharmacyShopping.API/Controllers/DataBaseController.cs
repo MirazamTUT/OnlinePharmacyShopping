@@ -82,11 +82,11 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<ActionResult<int>> UpdateDataBase(DataBase database,int id)
+        public async Task<ActionResult<int>> UpdateDataBase(DataBase database, int id)
         {
             try
             {
-                return await _dataBaseService.UpdateDataBaseAsync(database,id);
+                return await _dataBaseService.UpdateDataBaseAsync(database, id);
             }
             catch (AutoMapperMappingException ex)
             {

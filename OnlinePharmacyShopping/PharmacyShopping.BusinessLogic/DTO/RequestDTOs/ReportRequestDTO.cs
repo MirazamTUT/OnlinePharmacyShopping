@@ -20,7 +20,7 @@ public class ReportRequestDTOValidation : AbstractValidator<ReportRequestDTO>
     public ReportRequestDTOValidation()
     {
         RuleFor(u => u.ReportDescription)
-            .NotNull().WithMessage("Report ni kiritish kerak.")
-            .NotEmpty().WithMessage("Report bo'sh bo'lishi mumkin emas.");
+            .NotNull().WithMessage("Report must be entered.")
+            .NotEmpty().WithMessage("Report cannot be empty.");
     }
 }

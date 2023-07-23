@@ -27,38 +27,38 @@ public class CustomerRequestDTOValidator : AbstractValidator<CustomerRequestDTO>
     public CustomerRequestDTOValidator()
     {
         RuleFor(u => u.CustomerFirstName)
-            .NotNull().WithMessage("Customer First Name ni kiritish kerak.")
-            .NotEmpty().WithMessage("Customer First Name bo'sh bo'lishi mumkin emas.")
+            .NotNull().WithMessage("Customer First Name must be entered.")
+            .NotEmpty().WithMessage("Customer First Name cannot be empty.")
             .MinimumLength(2).WithMessage("Customer First Name 2 ta belgidan kam bo'lishi mumkin emas.")
             .MaximumLength(15).WithMessage("Customer First Name 15 ta belgidan ko'p bo'lishi mumkin emas.");
 
         RuleFor(u => u.CustomerLastName)
-            .NotNull().WithMessage("Customer Last Name ni kiritish kerak.")
-            .NotEmpty().WithMessage("Customer Last Name bo'sh bo'lishi mumkin emas.")
-            .MinimumLength(2).WithMessage("Customer Last Name 2 ta belgidan kam bo'lishi mumkin emas.")
-            .MaximumLength(15).WithMessage("Customer Last Name 15 ta belgidan ko'p bo'lishi mumkin emas.");
+            .NotNull().WithMessage("Customer Last Name must be entered.")
+            .NotEmpty().WithMessage("Customer Last Name cannot be empty")
+            .MinimumLength(2).WithMessage("Customer Last Name cannot be less than 2 characters.")
+            .MaximumLength(15).WithMessage("Customer Last Name cannot be longer than 15 characters.");
 
         RuleFor(u => u.BirthDate)
-            .NotNull().WithMessage("Birth date ni kiritish kerak.")
-            .LessThan(DateTime.Today).WithMessage("Birth date sanasi o'tmishda bo'lishi kerak.");
+            .NotNull().WithMessage("Birth date must be entered.")
+            .LessThan(DateTime.Today).WithMessage("Birth date cannot be empty");
 
         RuleFor(u => u.Gender)
-            .NotNull().WithMessage("Gender ni kiritish kerak.")
-            .IsInEnum().WithMessage("Noto'g'ri kiritilgan.");
+            .NotNull().WithMessage("Gender must be entered.")
+            .IsInEnum().WithMessage("Entered incorrectly.");
 
         RuleFor(u => u.PhoneNumber)
-            .NotNull().WithMessage("Phone Number ni kiritish kerak.")
-            .NotEmpty().WithMessage("Phone Number bo'sh bo'la olmaydi.")
-            .Matches(@"^[0-9]{10}$").WithErrorCode("Phone Number noto'g'ri kiritilgan.");
+            .NotNull().WithMessage("Phone Number must be entered.")
+            .NotEmpty().WithMessage("Phone Number cannot be empty.")
+            .Matches(@"^[0-9]{10}$").WithErrorCode("Phone Number entered incorrectly.");
 
         RuleFor(u => u.CustomerEmail)
-            .NotNull().WithMessage("Customer Email kiritish kerak.")
-            .NotEmpty().WithMessage("Customer Email bo'sh bo'lishi mumkin emas.")
-            .EmailAddress().WithMessage("Noto'g'ri Email manzil kiritilgan.");
+            .NotNull().WithMessage("Customer Email must be entered.")
+            .NotEmpty().WithMessage("Customer Email cannot be empty.")
+            .EmailAddress().WithMessage("Entered Email incorrectly.");
 
         RuleFor(u => u.CustomerPassword)
-            .NotNull().WithMessage("Customer Password ni kiritish kerak.")
-            .NotEmpty().WithMessage("Customer Password bo'sh bo'lishi mumkin emas.")
-            .MinimumLength(8).WithMessage("Passwordni uzunligi 8 ta belgidan kam bolishi mumkin emas.");
+            .NotNull().WithMessage("Customer Password must be entered.")
+            .NotEmpty().WithMessage("Customer Password cannot be empty.")
+            .MinimumLength(8).WithMessage("Customer Password cannot be less than 8 characters.");
     }
 }

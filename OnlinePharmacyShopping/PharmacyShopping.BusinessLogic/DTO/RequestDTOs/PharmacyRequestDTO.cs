@@ -30,7 +30,6 @@ public class PharmacyRequestDTOValidation : AbstractValidator<PharmacyRequestDTO
         RuleFor(u => u.PhoneNumber)
             .NotNull().WithMessage("Phone Number must be entered.")
             .NotEmpty().WithMessage("Phone Number cannot be empty.");
-          //.Matches(@"^[0-9]{10}$").WithErrorCode("Entered Phone Number incorrectly.");
 
         RuleFor(u => u.Email)
             .NotNull().WithMessage("Email must be entered.")

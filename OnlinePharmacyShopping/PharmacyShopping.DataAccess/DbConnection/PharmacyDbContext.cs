@@ -25,5 +25,19 @@ namespace PharmacyShopping.DataAccess.DbConnection
         public DbSet<ReportMedicine> ReportMedicines { get; set; }
 
         public DbSet<Sales> Sales { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReportMedicine>()
+                .HasKey(br => new { br.ReportMedicineId });
+            modelBuilder.Entity<ReportMedicine>()
+                .HasOne(b => b.Report)
+                .WithMany(br => br.ReportMedicines)
+                .HasForeignKey(b => b.ReportId);
+            modelBuilder.Entity<ReportMedicine>()
+                .HasOne(b => b.Medicine)
+                .WithMany(br => br.ReportMedicines)
+                .HasForeignKey(b => b.MedicineId);
+        }
     }
 }

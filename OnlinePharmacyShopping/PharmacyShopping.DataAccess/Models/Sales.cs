@@ -1,7 +1,10 @@
-﻿namespace PharmacyShopping.DataAccess.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PharmacyShopping.DataAccess.Models
 {
     public class Sales
     {
+        [Key]
         public int SaleId { get; set; }
 
         public int PharmacyId { get; set; }

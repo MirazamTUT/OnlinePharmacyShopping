@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
@@ -22,70 +23,141 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         
         public async Task<int> AddReportAsync(ReportRequestDTO reportRequestDTO)
         {
-            var resultReportId = await _reportRepository.AddReportAsync(_mapper.Map<Report>(reportRequestDTO));
-            foreach(int medicineId in reportRequestDTO.MedicineId)
+            try
             {
-                var reportMedicine = new ReportMedicine
+                var resultReportId = await _reportRepository.AddReportAsync(_mapper.Map<Report>(reportRequestDTO));
+                foreach (int medicineId in reportRequestDTO.MedicineId)
                 {
-                    ReportId = resultReportId,
-                    MedicineId = medicineId
-                };
-                await _reportMedicineRepository.AddReportMedicineAsync(reportMedicine);
+                    var reportMedicine = new ReportMedicine
+                    {
+                        ReportId = resultReportId,
+                        MedicineId = medicineId
+                    };
+                    await _reportMedicineRepository.AddReportMedicineAsync(reportMedicine);
+                }
+                return resultReportId;
             }
-            return resultReportId;
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was adding changes");
+            }
         }
 
         public async Task<int> DeleteReportAsync(int id)
         {
-            var reportResult = await _reportRepository.GetReportByIdAsync(id);
-            if (reportResult is not null)
+            try
             {
-                await _reportRepository.DeleteReportAsync(reportResult);
-                foreach (ReportMedicine reportMedicine in reportResult.ReportMedicines)
+                var reportResult = await _reportRepository.GetReportByIdAsync(id);
+                if (reportResult is not null)
                 {
-                    await _reportMedicineRepository.DeleteReportMedicineAsync(reportMedicine);
+                    await _reportRepository.DeleteReportAsync(reportResult);
+                    foreach (ReportMedicine reportMedicine in reportResult.ReportMedicines)
+                    {
+                        await _reportMedicineRepository.DeleteReportMedicineAsync(reportMedicine);
+                    }
+                    return reportResult.ReportId;
                 }
-                return reportResult.ReportId;
+                else
+                {
+                    throw new Exception("Object cannot be deleted");
+                }
             }
-            else
+            catch (DbUpdateException ex)
             {
-                throw new Exception("Delete didn't work");
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was deleting changes");
             }
         }
 
         public async Task<List<ReportResponseDTO>> GetAllReportsAsync()
         {
-            return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
+            try
+            {
+                return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<ReportResponseDTO> GetReportByIdAsync(int id)
         {
-            return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(id));
+            try
+            {
+                return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(id));
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new Exception("Mapping failed");
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<int> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int id)
         {
-            var reportResult = await _reportRepository.GetReportByIdAsync(id);
-            if (reportResult is not null)
+            try
             {
-                reportResult = _mapper.Map<Report>(reportRequestDTO);
-                reportResult.ReportId = id;
-                var resultReportId = await _reportRepository.UpdateReportAsync(reportResult);
-                foreach (int medicineId in reportRequestDTO.MedicineId)
+                var reportResult = await _reportRepository.GetReportByIdAsync(id);
+                if (reportResult is not null)
                 {
-                    var resultReportMedicine = await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(medicineId);
-                    for(int i = 0; i < resultReportMedicine.Count(); i++)
+                    reportResult = _mapper.Map<Report>(reportRequestDTO);
+                    reportResult.ReportId = id;
+                    var resultReportId = await _reportRepository.UpdateReportAsync(reportResult);
+                    foreach (int medicineId in reportRequestDTO.MedicineId)
                     {
-                        resultReportMedicine[i].ReportId = reportResult.MedicineId[i];
-                        var reportMedicineForUpdate = resultReportMedicine[i];
-                        await _reportMedicineRepository.UpdateReportMedicineAsync(reportMedicineForUpdate);
+                        var resultReportMedicine = await _reportMedicineRepository.GetAllReportMedicineByMedicineIdAsync(medicineId);
+                        for (int i = 0; i < resultReportMedicine.Count(); i++)
+                        {
+                            resultReportMedicine[i].ReportId = reportResult.MedicineId[i];
+                            var reportMedicineForUpdate = resultReportMedicine[i];
+                            await _reportMedicineRepository.UpdateReportMedicineAsync(reportMedicineForUpdate);
+                        }
                     }
+                    return resultReportId;
                 }
-                return resultReportId;
+                else
+                {
+                    throw new Exception("Object cannot be updated");
+                }
             }
-            else
+            catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Update didn't work");
+                throw new Exception("Mapping failed");
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Operation was failed when it was updating changes");
             }
         }
     }

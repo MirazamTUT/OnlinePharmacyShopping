@@ -18,7 +18,6 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
-
                 _context.ReportMedicines.Add(reportMedicine);
                 await _context.SaveChangesAsync();
             }

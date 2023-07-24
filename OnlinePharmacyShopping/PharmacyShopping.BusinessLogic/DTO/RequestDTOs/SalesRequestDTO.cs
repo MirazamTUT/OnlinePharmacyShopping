@@ -1,4 +1,7 @@
-﻿namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
+﻿using FluentValidation;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
+
+namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 {
     public class SalesRequestDTO
     {
@@ -11,5 +14,15 @@
         public int MedicineId { get; set; }
 
         public int PurchaseId { get; set; }
+    }
+}
+
+public class SalesRequestDTOValidation : AbstractValidator<SalesRequestDTO>
+{
+    public SalesRequestDTOValidation()
+    {
+        RuleFor(u => u.TotalAmount)
+            .NotNull().WithMessage("Total Amount must be entered.")
+            .NotEmpty().WithMessage("total Amount cannot be empty.");
     }
 }

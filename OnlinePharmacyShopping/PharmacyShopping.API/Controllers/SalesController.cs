@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -12,10 +14,12 @@ namespace PharmacyShopping.API.Controllers
     public class SalesController : ControllerBase
     {
         private readonly ISalesService _salesService;
+        private readonly IValidator<SalesRequestDTO> _validator;
 
-        public SalesController(ISalesService salesService)
+        public SalesController(ISalesService salesService, IValidator<SalesRequestDTO> validator)
         {
             _salesService = salesService;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -23,7 +27,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _salesService.AddSalesAsync(salesRequestDTO);
+                ValidationResult validationResult = await _validator.ValidateAsync(salesRequestDTO);
+                if(validationResult.IsValid)
+                {
+                    return await _salesService.AddSalesAsync(salesRequestDTO);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {
@@ -86,7 +98,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _salesService.UpdateSalesAsync(salesRequestDTO, id);
+                ValidationResult validationResult = await _validator.ValidateAsync(salesRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _salesService.UpdateSalesAsync(salesRequestDTO, id);
+                }
+                else
+                {
+                    throw new Exception("Sales for update is not available.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {

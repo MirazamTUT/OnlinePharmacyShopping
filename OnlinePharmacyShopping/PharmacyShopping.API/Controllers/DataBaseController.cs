@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
-using PharmacyShopping.DataAccess.Models;
 
 namespace PharmacyShopping.API.Controllers
 {
@@ -19,11 +19,11 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddDataBase(DataBase database)
+        public async Task<ActionResult<int>> AddDataBase(DataBaseRequestDTO dataBaseRequestDTO)
         {
             try
             {
-                return await _dataBaseService.AddDataBaseAsync(database);
+                return await _dataBaseService.AddDataBaseAsync(dataBaseRequestDTO);
             }
             catch (AutoMapperMappingException ex)
             {
@@ -82,11 +82,11 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<ActionResult<int>> UpdateDataBase(DataBase database,int id)
+        public async Task<ActionResult<int>> UpdateDataBase(DataBaseRequestDTO dataBaseRequestDTO, int id)
         {
             try
             {
-                return await _dataBaseService.UpdateDataBaseAsync(database,id);
+                return await _dataBaseService.UpdateDataBaseAsync(dataBaseRequestDTO, id);
             }
             catch (AutoMapperMappingException ex)
             {

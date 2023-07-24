@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
 using PharmacyShopping.BusinessLogic.Service.Services;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
@@ -11,6 +13,13 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddMvc();
+            services.AddScoped<IValidator<CustomerRequestDTO>, CustomerRequestDTOValidator>();
+            services.AddScoped<IValidator<MedicineRequestDTO>, MedicineRequestDTOValidation>();
+            services.AddScoped<IValidator<PharmacyRequestDTO>, PharmacyRequestDTOValidation>();
+            services.AddScoped<IValidator<PurchaseRequestDTO>, PurchaseRequestDTOValidation>();
+            services.AddScoped<IValidator<ReportRequestDTO>, ReportRequestDTOValidation>();
+            services.AddScoped<IValidator<SalesRequestDTO>, SalesRequestDTOValidation>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ISalesRepository, SalesRepository>();
             services.AddScoped<IDataBaseRepository, DataBaseRepository>();

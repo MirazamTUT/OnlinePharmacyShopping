@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -12,10 +14,12 @@ namespace PharmacyShopping.API.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
+        private readonly IValidator<PurchaseRequestDTO> _validator;
 
-        public PurchaseController(IPurchaseService purchaseService)
+        public PurchaseController(IPurchaseService purchaseService, IValidator<PurchaseRequestDTO> validator)
         {
             _purchaseService = purchaseService;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -23,7 +27,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _purchaseService.AddPurchaseAsync(purchaseRequestDTO);
+               ValidationResult validationResult = await _validator.ValidateAsync(purchaseRequestDTO);
+                if(validationResult.IsValid)
+                {
+                    return await _purchaseService.AddPurchaseAsync(purchaseRequestDTO);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {
@@ -107,7 +119,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _purchaseService.UpdatePurchaseAsync(purchaseRequestDTO, id);
+                ValidationResult validationResult = await _validator.ValidateAsync(purchaseRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _purchaseService.UpdatePurchaseAsync(purchaseRequestDTO, id);
+                }
+                else
+                {
+                    throw new Exception("Purchase for update is not available.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {

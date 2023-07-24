@@ -17,6 +17,7 @@ namespace PharmacyShopping.BusinessLogic.DTO.AutoMapper
                 .ReverseMap();
 
             // DataBaseAutoMapper
+            CreateMap<DataBaseRequestDTO, DataBase>().ReverseMap();
             CreateMap<DataBase, DataBaseResponseDTO>().ReverseMap();
 
             // MedicineAutoMapper

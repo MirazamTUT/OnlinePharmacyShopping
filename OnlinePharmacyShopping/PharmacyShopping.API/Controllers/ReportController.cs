@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -12,10 +14,12 @@ namespace PharmacyShopping.API.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
+        private readonly IValidator<ReportRequestDTO> _validator;
 
-        public ReportController(IReportService reportService)
+        public ReportController(IReportService reportService, IValidator<ReportRequestDTO> validator)
         {
             _reportService = reportService;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -23,7 +27,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _reportService.AddReportAsync(reportRequestDTO);
+                ValidationResult validationResult = await _validator.ValidateAsync(reportRequestDTO);
+                if(validationResult.IsValid)
+                {
+                    return await _reportService.AddReportAsync(reportRequestDTO);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {
@@ -86,7 +98,15 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                return await _reportService.UpdateReportAsync(reportRequestDTO, id);
+                ValidationResult validationResult = await _validator.ValidateAsync(reportRequestDTO);
+                if (validationResult.IsValid)
+                {
+                    return await _reportService.UpdateReportAsync(reportRequestDTO, id);
+                }
+                else
+                {
+                    throw new Exception("Report for update is not available.");
+                }
             }
             catch (AutoMapperMappingException ex)
             {

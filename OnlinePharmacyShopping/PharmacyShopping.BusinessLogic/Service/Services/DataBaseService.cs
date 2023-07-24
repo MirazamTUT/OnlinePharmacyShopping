@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services
 {
@@ -18,11 +19,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<int> AddDataBaseAsync(DataBase dataBase)
+        public async Task<int> AddDataBaseAsync(DataBaseRequestDTO dataBaseRequestDTO)
         {
             try
             {
-                return await _dataBaseRepository.AddDataBaseAsync(_mapper.Map<DataBase>(dataBase));
+                return await _dataBaseRepository.AddDataBaseAsync(_mapper.Map<DataBase>(dataBaseRequestDTO));
             }
             catch (AutoMapperMappingException ex)
             {
@@ -52,11 +53,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                     throw new Exception("Object didn't find for deleting");
                 }
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 throw new Exception(ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Operation was failed when it was deleting changes");
             }
@@ -82,14 +83,14 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> UpdateDataBaseAsync(DataBase dataBase, int id)
+        public async Task<int> UpdateDataBaseAsync(DataBaseRequestDTO dataBaseRequestDTO, int id)
         {
             try
             {
                 var resultDataBase = await _dataBaseRepository.GetDataBaseAsync();
                 if (resultDataBase is not null)
                 {
-                    resultDataBase = _mapper.Map<DataBase>(dataBase);
+                    resultDataBase = _mapper.Map<DataBase>(dataBaseRequestDTO);
                     resultDataBase.DataBaseId = id;
                     return await _dataBaseRepository.UpdateDataBaseAsync(resultDataBase);
                 }
@@ -102,7 +103,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 throw new Exception(ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Operation was failed when it was Updating DataBase information");
             }

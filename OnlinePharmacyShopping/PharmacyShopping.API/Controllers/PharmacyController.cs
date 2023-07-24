@@ -115,7 +115,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(pharmacyRequestDTO);
                 if (validationResult.IsValid)
                 {
-                    _logger.LogInformation("Customer was successfully updated.");
+                    _logger.LogInformation("Pharmacy was successfully updated.");
                     return await _pharmacyService.UpdatePharmacyAsync(pharmacyRequestDTO, id);
                 }
                 else

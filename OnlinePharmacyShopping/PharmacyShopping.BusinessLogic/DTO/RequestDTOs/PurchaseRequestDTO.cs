@@ -26,6 +26,6 @@ public class PurchaseRequestDTOValidation : AbstractValidator<PurchaseRequestDTO
         RuleFor(u => u.PurchaseDate)
             .NotNull().WithMessage("Purchase date must be entered.")
             .NotEmpty().WithMessage("Purchase date cannot be empty.")
-            .LessThanOrEqualTo(DateTime.Today).WithMessage("Purchase date must be today or before today.");           
+            .LessThanOrEqualTo(DateTime.Today).WithMessage("Purchase date must be today or before today.");
     }
 }

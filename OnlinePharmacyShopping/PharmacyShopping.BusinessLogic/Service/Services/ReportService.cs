@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
@@ -13,11 +14,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         private readonly IReportRepository _reportRepository;
         private readonly IReportMedicineRepository _reportMedicineRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ReportService> _logger;
 
-        public ReportService(IReportRepository reportRepository, IMapper mapper, IReportMedicineRepository reportMedicineRepository)
+        public ReportService(IReportRepository reportRepository,ILogger<ReportService> logger, IMapper mapper, IReportMedicineRepository reportMedicineRepository)
         {
             _reportRepository = reportRepository;
             _mapper = mapper;
+            _logger = logger;
             _reportMedicineRepository = reportMedicineRepository;
         }
         
@@ -35,18 +38,22 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                     };
                     await _reportMedicineRepository.AddReportMedicineAsync(reportMedicine);
                 }
+                _logger.LogInformation("Report was successfully added.");
                 return resultReportId;
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Report to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Report to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was adding changes");
             }
         }
@@ -63,20 +70,23 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                     {
                         await _reportMedicineRepository.DeleteReportMedicineAsync(reportMedicine);
                     }
+                    _logger.LogInformation("Report was successfully deleted.");
                     return reportResult.ReportId;
                 }
                 else
                 {
-                    throw new Exception("Object cannot be deleted");
+                    throw new Exception("Object cannot be deleted.");
                 }
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Report to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was deleting changes");
+                _logger.LogError($"Unexpected error deleting Report to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was deleting changes.");
             }
         }
 
@@ -84,18 +94,22 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
+                _logger.LogInformation("All Reports were found successfully.");
                 return _mapper.Map<List<ReportResponseDTO>>(await _reportRepository.GetAllReportsAsync());
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all Reports in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all Reports from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
         }
@@ -104,18 +118,22 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
+                _logger.LogInformation("ReportById was found successfully.");
                 return _mapper.Map<ReportResponseDTO>(await _reportRepository.GetReportByIdAsync(id));
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving ReportById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving ReportById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
         }
@@ -140,24 +158,28 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                             await _reportMedicineRepository.UpdateReportMedicineAsync(reportMedicineForUpdate);
                         }
                     }
+                    _logger.LogInformation("Report was successfully updated.");
                     return resultReportId;
                 }
                 else
                 {
-                    throw new Exception("Object cannot be updated");
+                    throw new Exception("Object cannot be updated.");
                 }
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Report {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was updating changes");
+                _logger.LogError($"An unexpected error occurred while updating Report {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was updating changes.");
             }
         }
     }

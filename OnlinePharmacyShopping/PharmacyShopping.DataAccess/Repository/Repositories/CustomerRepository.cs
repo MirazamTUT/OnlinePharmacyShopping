@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
@@ -8,10 +9,12 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly PharmacyDbContext _pharmacyDbContext;
+        private readonly ILogger<CustomerRepository> _logger;
 
-        public CustomerRepository(PharmacyDbContext pharmacyDbContext)
+        public CustomerRepository(PharmacyDbContext pharmacyDbContext, ILogger<CustomerRepository> logger)
         {
             _pharmacyDbContext = pharmacyDbContext;
+            _logger = logger;
         }
 
         public async Task<int> AddCustomerAsync(Customer customer)
@@ -20,15 +23,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _pharmacyDbContext.Customers.Add(customer);
                 await _pharmacyDbContext.SaveChangesAsync();
+                _logger.LogInformation("Customer was successfully added.");
                 return customer.CustomerId;
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                _logger.LogError($"There is an error adding Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                _logger.LogError($"Unexpected error saving Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was adding changes.");
             }
         }
 
@@ -38,15 +44,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _pharmacyDbContext.Customers.Remove(customer);
                 await _pharmacyDbContext.SaveChangesAsync();
+                _logger.LogInformation("Customer was successfully deleted.");
                 return customer.CustomerId;
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                _logger.LogError($"There is an error deleting Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was deleting changes");
+                _logger.LogError($"Unexpected error deleting Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was deleting changes.");
             }
         }
 
@@ -54,6 +63,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
+                _logger.LogInformation("All Customers were found successfully.");
                 return await _pharmacyDbContext.Customers
                     .Include(x => x.Purchases)
                     .Include(x => x.Sales)
@@ -63,11 +73,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the information");
+                _logger.LogError($"An error occurred while retrieving all Customers in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving Customers information");
+                _logger.LogError($"There is an error retrieving all Customers from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving Customers information.");
             }
         }
 
@@ -75,6 +87,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
+                _logger.LogInformation("CustomerById was found successfully.");
                 return await _pharmacyDbContext.Customers
                    .Include(x => x.Purchases)
                    .Include(x => x.Sales)
@@ -84,11 +97,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the information");
+                _logger.LogError($"An error occurred while retrieving CustomerById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving CustomerById information");
+                _logger.LogError($"An unexpected error occurred while retrieving CustomerById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving CustomerById information.");
             }
         }
 
@@ -98,15 +113,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _pharmacyDbContext.Customers.Update(customer);
                 await _pharmacyDbContext.SaveChangesAsync();
+                _logger.LogInformation("Customer was successfully updated.");
                 return customer.CustomerId;
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Customer {customer.CustomerId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Connection between database is failed");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was updating changes");
+                _logger.LogError($"An unexpected error occurred while updating Customer {customer.CustomerId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was updating changes.");
             }
         }
     }

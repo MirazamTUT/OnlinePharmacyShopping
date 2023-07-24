@@ -15,11 +15,13 @@ namespace PharmacyShopping.API.Controllers
     {
         private readonly IMedicineService _medicineService;
         private readonly IValidator<MedicineRequestDTO> _validator;
+        private readonly ILogger<MedicineControler> _logger;
 
-        public MedicineControler(IMedicineService medicineService, IValidator<MedicineRequestDTO> validator)
+        public MedicineControler(IMedicineService medicineService, IValidator<MedicineRequestDTO> validator, ILogger<MedicineControler> logger)
         {
             _medicineService = medicineService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -30,6 +32,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(medicineRequestDTO);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Medicine was successfully added.");
                     return await _medicineService.AddMedicineAsync(medicineRequestDTO);
                 }
                 else
@@ -39,35 +42,42 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Medicine to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Medicine to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("Id")]
         public async Task<ActionResult<MedicineResponseDTO>> GetMedicineById(int id)
         {
             try
             {
+                _logger.LogInformation("MedicineById was found successfully.");
                 return await _medicineService.GetMedicineByIdAsync(id);
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while retrieving MedicineById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving MedicineById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -77,18 +87,22 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("All ReportMedicineByMedicineIds were found successfully.");
                 return await _medicineService.GetAllReportMedicineByMedicineIdAsync(id);
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all ReportMedicineByMedicineIds in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all ReportMedicineByMedicineIds from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -114,7 +128,7 @@ namespace PharmacyShopping.API.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("Id")]
         public async Task<ActionResult<int>> UpdateMedicine(MedicineRequestDTO medicineRequestDTO, int id)
         {
             try
@@ -122,6 +136,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(medicineRequestDTO);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Medicine was successfully updated.");
                     return await _medicineService.UpdateMedicineAsync(medicineRequestDTO, id);
                 }
                 else
@@ -131,31 +146,37 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Medicine {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while updating Medicine {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("Id")]
         public async Task<ActionResult<int>> DeleteMedicine(int id)
         {
             try
             {
+                _logger.LogInformation("Medicine was successfully deleted.");
                 return await _medicineService.DeleteMedicineAsync(id);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Medicine to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error deleting Medicine to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }

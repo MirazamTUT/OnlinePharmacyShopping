@@ -1,8 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.BusinessLogic.ServiceExtentions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers().AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 var config = builder.Configuration.GetSection("ConnectionStrings");

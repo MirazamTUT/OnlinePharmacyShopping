@@ -95,7 +95,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving PharmacyByid from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)

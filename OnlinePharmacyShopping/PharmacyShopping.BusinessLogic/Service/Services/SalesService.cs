@@ -15,7 +15,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         private readonly IMapper _mapper;
         private readonly ILogger<SalesService> _logger;
 
-        public SalesService(ISalesRepository salesRepository,ILogger<SalesService> logger, IMapper mapper)
+        public SalesService(ISalesRepository salesRepository, ILogger<SalesService> logger, IMapper mapper)
         {
             _salesRepository = salesRepository;
             _mapper = mapper;

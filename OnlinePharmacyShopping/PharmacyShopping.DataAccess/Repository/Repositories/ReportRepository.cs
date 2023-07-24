@@ -63,7 +63,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
-                _logger.LogInformation("All Report were found successfully.");
+                _logger.LogInformation("All Reports were found successfully.");
                 return await _context.Reports
                    .Include(u => u.Customer)
                    .Include(u => u.ReportMedicines)

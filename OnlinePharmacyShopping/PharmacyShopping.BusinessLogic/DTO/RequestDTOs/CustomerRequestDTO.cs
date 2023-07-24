@@ -49,7 +49,6 @@ public class CustomerRequestDTOValidator : AbstractValidator<CustomerRequestDTO>
         RuleFor(u => u.PhoneNumber)
             .NotNull().WithMessage("Phone Number must be entered.")
             .NotEmpty().WithMessage("Phone Number cannot be empty.")
-            .Matches(@"^[0-9]{10}$").WithErrorCode("Phone Number entered incorrectly.");
 
         RuleFor(u => u.CustomerEmail)
             .NotNull().WithMessage("Customer Email must be entered.")

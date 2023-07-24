@@ -77,7 +77,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"An unexpected error occurred while retrieving all ReportMedicineByReportIds from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
-                throw new Exception("Operation was failed when it was giving ReportMedicineByReportid information.");
+                throw new Exception("Operation was failed when it was giving ReportMedicineByReportId information.");
             }
         }
 

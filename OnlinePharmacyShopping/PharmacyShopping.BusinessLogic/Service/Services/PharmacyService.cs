@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
@@ -12,29 +13,35 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
     {
         private readonly IMapper _mapper;
         private readonly IPharmacyRepository _repository;
+        private readonly ILogger<PharmacyService> _logger;
 
-        public PharmacyService(IPharmacyRepository repository, IMapper mapper)
+        public PharmacyService(IPharmacyRepository repository, IMapper mapper, ILogger<PharmacyService> logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<int> AddPharmacyAsync(PharmacyRequestDTO pharmacyRequestDto)
         {
             try
             {
+                _logger.LogInformation("Pharmacy was successfully added.");
                 return await _repository.AddPharmacyAsync(_mapper.Map<Pharmacy>(pharmacyRequestDto));
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }       
         }
@@ -46,20 +53,23 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 var resultCheckingPharmacy = await _repository.GetPharmacyByIdAsync(id);
                 if (resultCheckingPharmacy is not null)
                 {
+                    _logger.LogInformation("Pharmacy was successfully deleted.");
                     return await _repository.DeletePharmacyAsync(resultCheckingPharmacy);
                 }
                 else
                 {
-                    throw new Exception("Object cannot be deleted");
+                    throw new Exception("Object cannot be deleted.");
                 }
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was deleting changes");
+                _logger.LogError($"Unexpected error deleting Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was deleting changes.");
             }
         }
 
@@ -67,18 +77,22 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
+                _logger.LogInformation("All Pharmacys were found successfully.");
                 return _mapper.Map<List<PharmacyResponseDTO>>(await _repository.GetAllPharmacyAsync());
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all Pharmacys in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all Pharmacys from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
         }
@@ -87,18 +101,22 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
+                _logger.LogInformation("PharmacyById was found successfully.");
                 return _mapper.Map<PharmacyResponseDTO>(await _repository.GetPharmacyByIdAsync(id));
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
         }
@@ -112,24 +130,28 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 {
                     resultCheckingPharmacy = _mapper.Map<Pharmacy>(pharmacyRequestDTO);
                     resultCheckingPharmacy.PharmacyId = id;
+                    _logger.LogInformation("Pharmacy was successfully updated.");
                     return await _repository.UpdatePharmacyAsync(resultCheckingPharmacy);
                 }
                 else
                 {
-                    throw new Exception("Object cannot be updated");
+                    throw new Exception("Object cannot be updated.");
                 }
             }
             catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Mapping failed");
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw new Exception("Mapping failed.");
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was updating changes");
+                _logger.LogError($"An unexpected error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was updating changes.");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
@@ -8,10 +9,12 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
     public class MedicineRepository : IMedicineRepository
     {
         private readonly PharmacyDbContext _context;
+        private readonly ILogger<MedicineRepository> _logger;
 
-        public MedicineRepository(PharmacyDbContext context)
+        public MedicineRepository(PharmacyDbContext context, ILogger<MedicineRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<int> AddMedicineAsync(Medicine medicine)
@@ -20,15 +23,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _context.Medicines.Add(medicine);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Medicine was successfully added.");
                 return medicine.MedicineId;
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                _logger.LogError($"There is an error adding Medicine to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was adding changes");
+                _logger.LogError($"Unexpected error saving Medicine to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was adding changes.");
             }
         }
 
@@ -38,15 +44,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _context.Medicines.Remove(medicine);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Medicine was successfully deleted.");
                 return medicine.MedicineId;
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                _logger.LogError($"There is an error deleting Medicine to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was deleting changes");
+                _logger.LogError($"Unexpected error deleting Medicine to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was deleting changes.");
             }
         }
 
@@ -54,6 +63,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
+                _logger.LogInformation("All Medicines were found successfully.");
                 return await _context.Medicines
                    .Include(u => u.ReportMedicines)
                    .Include(u => u.Purchase)
@@ -63,11 +73,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the information");
+                _logger.LogError($"An error occurred while retrieving all Medicines in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving Medicines information");
+                _logger.LogError($"There is an error retrieving all Medicines from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving Medicines information.");
             }
         }
 
@@ -75,6 +87,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
+                _logger.LogInformation("MedicineById was found successfully.");
                 return await _context.Medicines
                     .Include(u => u.ReportMedicines)
                     .Include(u => u.Purchase)
@@ -84,11 +97,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception("Operation was failed when it was giving the information");
+                _logger.LogError($"An error occurred while retrieving MedicineById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was giving MedicineById information");
+                _logger.LogError($"An unexpected error occurred while retrieving MedicineById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving MedicineById information.");
             }
         }
 
@@ -98,15 +113,18 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _context.Medicines.Update(medicine);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Medicine was successfully updated.");
                 return medicine.MedicineId;
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Connection between database is failed");
+                _logger.LogError($"An error occurred while updating Medicine {medicine.MedicineId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                throw new Exception("Operation was failed when it was updating changes");
+                _logger.LogError($"An unexpected error occurred while updating Medicine {medicine.MedicineId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was updating changes.");
             }
         }
     }

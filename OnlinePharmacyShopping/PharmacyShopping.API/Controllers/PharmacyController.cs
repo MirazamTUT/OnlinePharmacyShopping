@@ -15,11 +15,13 @@ namespace PharmacyShopping.API.Controllers
     {
         private readonly IPharmacyService _pharmacyService;
         private readonly IValidator<PharmacyRequestDTO> _validator;
+        private readonly ILogger<PharmacyController> _logger;
 
-        public PharmacyController(IPharmacyService pharmacyService, IValidator<PharmacyRequestDTO> validator)
+        public PharmacyController(IPharmacyService pharmacyService, IValidator<PharmacyRequestDTO> validator, ILogger<PharmacyController> logger)
         {
             _pharmacyService = pharmacyService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -30,6 +32,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(pharmacyRequestDto);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Pharmacy was successfully added.");
                     return await _pharmacyService.AddPharmacyAsync(pharmacyRequestDto);
                 }
                 else
@@ -39,14 +42,17 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
@@ -56,18 +62,22 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("PharmacyById was found successfully.");
                 return await _pharmacyService.GetPharmacyByIdAsync(id);
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -77,23 +87,27 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("All Pharmacys were found successfully.");
                 return await _pharmacyService.GetAllPharmacyAsync();
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all Pharmacys in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all Pharmacys from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpPut]
+        [HttpPut("Id")]
         public async Task<ActionResult<int>> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO, int id)
         {
             try
@@ -101,6 +115,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(pharmacyRequestDTO);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Pharmacy was successfully updated.");
                     return await _pharmacyService.UpdatePharmacyAsync(pharmacyRequestDTO, id);
                 }
                 else
@@ -110,31 +125,37 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("Id")]
         public async Task<ActionResult<int>> DeletePharmacyAsync(int id)
         {
             try
             {
+                _logger.LogInformation("Pharmacy was successfully deleted.");
                 return await _pharmacyService.DeletePharmacyAsync(id);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error deleting Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }

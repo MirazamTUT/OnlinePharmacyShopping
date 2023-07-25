@@ -15,11 +15,13 @@ namespace PharmacyShopping.API.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IValidator<CustomerRequestDTO> _validator;
+        private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerService customerService, IValidator<CustomerRequestDTO> validator)
+        public CustomerController(ICustomerService customerService, IValidator<CustomerRequestDTO> validator, ILogger<CustomerController> logger)
         {
             _customerService = customerService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -30,6 +32,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(customerRequestDTO);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Customer was successfully added.");
                     return await _customerService.AddCustomerAsync(customerRequestDTO);
                 }
                 else
@@ -39,14 +42,17 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
@@ -56,18 +62,22 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("CustomerById was found successfully.");
                 return await _customerService.GetCustomerByIdAsync(id);
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving Customer from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving Customer from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -77,23 +87,27 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("All Customers were found successfully.");
                 return await _customerService.GetAllCustomersAsync();
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all Customers in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all Customers from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpPut]
+        [HttpPut("Id")]
         public async Task<ActionResult<int>> UpdateCustomerAsync(CustomerRequestDTO customerRequestDTO, int id)
         {
             try
@@ -101,6 +115,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(customerRequestDTO);
                 if(validationResult.IsValid)
                 {
+                    _logger.LogInformation("Customer was successfully updated.");
                     return await _customerService.UpdateCustomerAsync(customerRequestDTO, id);
                 }
                 else
@@ -110,31 +125,37 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Customer {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while updating Customer {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("Id")]
         public async Task<ActionResult<int>> DeleteCustomerAsync(int id)
         {
             try
             {
+                _logger.LogInformation("Customer was successfully deleted.");
                 return await _customerService.DeleteCustomerAsync(id);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error deleting Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }

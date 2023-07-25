@@ -15,11 +15,13 @@ namespace PharmacyShopping.API.Controllers
     {
         private readonly IReportService _reportService;
         private readonly IValidator<ReportRequestDTO> _validator;
+        private readonly ILogger<ReportController> _logger;
 
-        public ReportController(IReportService reportService, IValidator<ReportRequestDTO> validator)
+        public ReportController(IReportService reportService, IValidator<ReportRequestDTO> validator, ILogger<ReportController> logger)
         {
             _reportService = reportService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -30,6 +32,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(reportRequestDTO);
                 if(validationResult.IsValid)
                 {
+                    _logger.LogInformation("Report was successfully added.");
                     return await _reportService.AddReportAsync(reportRequestDTO);
                 }
                 else
@@ -39,14 +42,17 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error adding Report to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error saving Report to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
@@ -56,18 +62,22 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("ReportById was found successfully.");
                 return await _reportService.GetReportByIdAsync(Id);
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving ReportById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while retrieving ReportById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -77,23 +87,27 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
+                _logger.LogInformation("All Reports were found successfully.");
                 return await _reportService.GetAllReportsAsync();
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                _logger.LogError($"An error occurred while retrieving all Reports in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"There is an error retrieving all Reports from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpPut]
+        [HttpPut("Id")]
         public async Task<ActionResult<int>> UpdateReportAsync(ReportRequestDTO reportRequestDTO, int id)
         {
             try
@@ -101,6 +115,7 @@ namespace PharmacyShopping.API.Controllers
                 ValidationResult validationResult = await _validator.ValidateAsync(reportRequestDTO);
                 if (validationResult.IsValid)
                 {
+                    _logger.LogInformation("Report was successfully updated.");
                     return await _reportService.UpdateReportAsync(reportRequestDTO, id);
                 }
                 else
@@ -110,31 +125,37 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (AutoMapperMappingException ex)
             {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"An error occurred while updating Report {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"An unexpected error occurred while updating Report {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("Id")]
         public async Task<ActionResult<int>> DeleteReportAsync(int id)
         {
             try
             {
+                _logger.LogInformation("Report was successfully deleted.");
                 return await _reportService.DeleteReportAsync(id);
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError($"There is an error deleting Report to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Unexpected error deleting Report to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }

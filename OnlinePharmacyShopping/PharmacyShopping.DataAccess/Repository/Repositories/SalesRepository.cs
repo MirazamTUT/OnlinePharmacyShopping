@@ -17,7 +17,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             _logger = logger;
         }
 
-        public async Task<int> AddSalesAsync(Sales sales)
+        public async Task<int> AddSalesAsync(Sale sales)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<int> DeleteSalesAsync(Sales sales)
+        public async Task<int> DeleteSalesAsync(Sale sales)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<Sales>> GetAllSalesAsync()
+        public async Task<List<Sale>> GetAllSalesAsync()
         {
             try
             {
@@ -83,7 +83,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<Sales> GetSalesByCustomerIdAsync(int id)
+        public async Task<Sale> GetSalesByCustomerIdAsync(int id)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<int> UpdateSalesAsync(Sales sales)
+        public async Task<int> UpdateSalesAsync(Sale sales)
         {
             try
             {

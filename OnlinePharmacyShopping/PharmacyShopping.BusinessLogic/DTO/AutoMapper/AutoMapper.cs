@@ -45,8 +45,8 @@ namespace PharmacyShopping.BusinessLogic.DTO.AutoMapper
                 .ReverseMap();
             
             // SalesAutoMapper
-            CreateMap<SalesRequestDTO, Sales>().ReverseMap();
-            CreateMap<Sales, SalesResponseDTO>()
+            CreateMap<SalesRequestDTO, Sale>().ReverseMap();
+            CreateMap<Sale, SalesResponseDTO>()
                 .ForMember(salesResponseDTO => salesResponseDTO.PharmacyName,
                 opt => opt.MapFrom(sales => sales.Pharmacy.PharmacyName))
                 .ForMember(salesResponseDTO => salesResponseDTO.CustomerFullName,

@@ -65,7 +65,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _logger.LogInformation("All Purchase were found successfully.");
                 return await _pharmacyDbContext.Purchases
-                    .Include(x => x.Sales)
+                    .Include(x => x.Sale)
                     .Include(x => x.Customer)
                     .Include(x => x.Medicine)
                     .AsSplitQuery()
@@ -89,7 +89,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             {
                 _logger.LogInformation("PurchaseById was found successfully.");
                 return await _pharmacyDbContext.Purchases
-                    .Include(x => x.Sales)
+                    .Include(x => x.Sale)
                     .Include(x => x.Customer)
                     .Include(x => x.Medicine)
                     .AsSplitQuery()

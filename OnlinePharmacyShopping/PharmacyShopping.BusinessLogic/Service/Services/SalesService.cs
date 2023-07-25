@@ -27,7 +27,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             try
             {
                 _logger.LogInformation("Sales was successfully added.");
-                return await _salesRepository.AddSalesAsync(_mapper.Map<Sales>(salesRequestDTO));
+                return await _salesRepository.AddSalesAsync(_mapper.Map<Sale>(salesRequestDTO));
             }
             catch (AutoMapperMappingException ex)
             {
@@ -128,7 +128,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 var salesResult = await _salesRepository.GetSalesByCustomerIdAsync(id);
                 if (salesResult is not null)
                 {
-                    salesResult = _mapper.Map<Sales>(salesRequestDTO);
+                    salesResult = _mapper.Map<Sale>(salesRequestDTO);
                     salesResult.SaleId = id;
                     _logger.LogInformation("Sales was successfully updated.");
                     return await _salesRepository.UpdateSalesAsync(salesResult);

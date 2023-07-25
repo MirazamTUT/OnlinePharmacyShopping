@@ -2,9 +2,8 @@
 
 namespace PharmacyShopping.DataAccess.Models
 {
-    public class Sales
+    public class Sale
     {
-        [Key]
         public int SaleId { get; set; }
 
         public int PharmacyId { get; set; }

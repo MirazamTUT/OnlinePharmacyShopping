@@ -13,7 +13,7 @@
         public DateTime PurchaseDate { get; set; }
 
 
-        public Sales Sales { get; set; }
+        public Sale Sale { get; set; }
 
         public Customer Customer { get; set; }
 

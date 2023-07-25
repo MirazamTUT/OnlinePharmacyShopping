@@ -24,7 +24,7 @@ namespace PharmacyShopping.DataAccess.DbConnection
 
         public DbSet<ReportMedicine> ReportMedicines { get; set; }
 
-        public DbSet<Sales> Sales { get; set; }
+        public DbSet<Sale> Sales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

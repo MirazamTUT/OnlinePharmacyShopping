@@ -11,13 +11,13 @@ namespace PharmacyShopping.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicineControler : ControllerBase
+    public class MedicineController : ControllerBase
     {
         private readonly IMedicineService _medicineService;
         private readonly IValidator<MedicineRequestDTO> _validator;
-        private readonly ILogger<MedicineControler> _logger;
+        private readonly ILogger<MedicineController> _logger;
 
-        public MedicineControler(IMedicineService medicineService, IValidator<MedicineRequestDTO> validator, ILogger<MedicineControler> logger)
+        public MedicineController(IMedicineService medicineService, IValidator<MedicineRequestDTO> validator, ILogger<MedicineController> logger)
         {
             _medicineService = medicineService;
             _validator = validator;

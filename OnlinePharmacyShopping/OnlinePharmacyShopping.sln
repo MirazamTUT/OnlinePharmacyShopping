@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmacyShopping.BusinessLo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OnlinePharmacyShopping.Unit.Test", "OnlinePharmacyShopping.Unit.Test", "{8B827DFE-6147-4615-8EF7-EFE49AB43A05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Test", "API.Test\API.Test.csproj", "{F9F467B5-C813-4683-920B-E7EC9350EC34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Test", "API.Test\API.Test.csproj", "{F9F467B5-C813-4683-920B-E7EC9350EC34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.Test", "BusinessLogic.Test\BusinessLogic.Test.csproj", "{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.Test", "BusinessLogic.Test\BusinessLogic.Test.csproj", "{95D44AD8-6ED0-4C70-AF4B-67DDCC02F28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Test", "DataAccess.Test\DataAccess.Test.csproj", "{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Test", "DataAccess.Test\DataAccess.Test.csproj", "{DEE1748A-9EA9-4112-A2F9-ADEC759A38D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

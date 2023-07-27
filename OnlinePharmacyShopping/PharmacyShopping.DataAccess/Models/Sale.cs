@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PharmacyShopping.DataAccess.Models
+﻿namespace PharmacyShopping.DataAccess.Models
 {
     public class Sale
     {
@@ -9,8 +7,6 @@ namespace PharmacyShopping.DataAccess.Models
         public int PharmacyId { get; set; }
 
         public int CustomerId { get; set; }
-
-        public List<int> PurchaseId { get; set; }
 
         public DateTime SaleDate { get; set; }
 

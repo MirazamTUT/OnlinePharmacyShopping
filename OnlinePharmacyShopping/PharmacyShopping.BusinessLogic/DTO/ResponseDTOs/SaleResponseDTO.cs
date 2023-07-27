@@ -1,6 +1,6 @@
 ﻿namespace PharmacyShopping.BusinessLogic.DTO.ResponseDTOs
 {
-    public class SalesResponseDTO
+    public class SaleResponseDTO
     {
         public int SaleId { get; set; }
 

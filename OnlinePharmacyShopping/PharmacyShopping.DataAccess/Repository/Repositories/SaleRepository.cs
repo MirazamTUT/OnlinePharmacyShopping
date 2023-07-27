@@ -6,12 +6,12 @@ using PharmacyShopping.DataAccess.Repository.IRepositories;
 
 namespace PharmacyShopping.DataAccess.Repository.Repositories
 {
-    public class SalesRepository : ISalesRepository
+    public class SaleRepository : ISaleRepository
     {
         private readonly PharmacyDbContext _context;
-        private readonly ILogger<SalesRepository> _logger;
+        private readonly ILogger<SaleRepository> _logger;
 
-        public SalesRepository(PharmacyDbContext context, ILogger<SalesRepository> logger)
+        public SaleRepository(PharmacyDbContext context, ILogger<SaleRepository> logger)
         {
             _context = context;
             _logger = logger;

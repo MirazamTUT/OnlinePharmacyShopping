@@ -4,8 +4,6 @@
     {
         public int ReportId { get; set; }
 
-        public int PurchaseId { get; set; }
-
         public int CustomerId { get; set; }
 
         public List<int> MedicineId { get; set; }

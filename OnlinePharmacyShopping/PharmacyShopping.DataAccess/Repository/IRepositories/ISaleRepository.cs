@@ -2,7 +2,7 @@
 
 namespace PharmacyShopping.DataAccess.Repository.IRepositories
 {
-    public interface ISalesRepository
+    public interface ISaleRepository
     {
         Task<int> AddSalesAsync(Sale sales);
 

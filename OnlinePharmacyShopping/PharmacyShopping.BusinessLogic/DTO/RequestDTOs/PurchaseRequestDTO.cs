@@ -9,6 +9,8 @@ namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 
         public int CustomerId { get; set; }
 
+        public int SaleId { get; set; }
+
         public int MedicineId { get; set; }
 
         public DateTime PurchaseDate { get; set; }

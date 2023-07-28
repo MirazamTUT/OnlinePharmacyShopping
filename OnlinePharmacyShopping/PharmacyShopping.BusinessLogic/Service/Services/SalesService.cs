@@ -11,23 +11,23 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
 {
     public class SalesService : ISalesService
     {
-        private readonly ISalesRepository _salesRepository;
+        private readonly ISaleRepository _salesRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<SalesService> _logger;
 
-        public SalesService(ISalesRepository salesRepository, ILogger<SalesService> logger, IMapper mapper)
+        public SalesService(ISaleRepository salesRepository, ILogger<SalesService> logger, IMapper mapper)
         {
             _salesRepository = salesRepository;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<int> AddSalesAsync(SalesRequestDTO salesRequestDTO)
+        public async Task<int> AddSalesAsync(SaleRequestDTO salesRequestDTO)
         {
             try
             {
                 _logger.LogInformation("Sales was successfully added.");
-                return await _salesRepository.AddSalesAsync(_mapper.Map<Sales>(salesRequestDTO));
+                return await _salesRepository.AddSalesAsync(_mapper.Map<Sale>(salesRequestDTO));
             }
             catch (AutoMapperMappingException ex)
             {
@@ -73,12 +73,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<List<SalesResponseDTO>> GetAllSalesAsync()
+        public async Task<List<SaleResponseDTO>> GetAllSalesAsync()
         {
             try
             {
                 _logger.LogInformation("All Sales were found successfully.");
-                return _mapper.Map<List<SalesResponseDTO>>(await _salesRepository.GetAllSalesAsync());
+                return _mapper.Map<List<SaleResponseDTO>>(await _salesRepository.GetAllSalesAsync());
             }
             catch (AutoMapperMappingException ex)
             {
@@ -97,12 +97,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<SalesResponseDTO> GetSalesByIdAsync(int id)
+        public async Task<SaleResponseDTO> GetSalesByIdAsync(int id)
         {
             try
             {
                 _logger.LogInformation("SalesById was found successfully.");
-                return _mapper.Map<SalesResponseDTO>(await _salesRepository.GetSalesByCustomerIdAsync(id));
+                return _mapper.Map<SaleResponseDTO>(await _salesRepository.GetSalesByCustomerIdAsync(id));
             }
             catch (AutoMapperMappingException ex)
             {
@@ -121,14 +121,14 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<int> UpdateSalesAsync(SalesRequestDTO salesRequestDTO, int id)
+        public async Task<int> UpdateSalesAsync(SaleRequestDTO salesRequestDTO, int id)
         {
             try
             {
                 var salesResult = await _salesRepository.GetSalesByCustomerIdAsync(id);
                 if (salesResult is not null)
                 {
-                    salesResult = _mapper.Map<Sales>(salesRequestDTO);
+                    salesResult = _mapper.Map<Sale>(salesRequestDTO);
                     salesResult.SaleId = id;
                     _logger.LogInformation("Sales was successfully updated.");
                     return await _salesRepository.UpdateSalesAsync(salesResult);

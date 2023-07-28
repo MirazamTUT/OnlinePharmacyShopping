@@ -10,7 +10,7 @@
 
 
         public Medicine Medicine { get; set; }
-        
+
         public Report Report { get; set; }
     }
 }

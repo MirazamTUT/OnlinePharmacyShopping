@@ -2,5 +2,6 @@
 {
     public class DataBaseRequestDTO
     {
+        public string DataBaseName { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     {
         public int DataBaseId { get; set; }
 
-        public List<int> MedicineId { get; set; }
+        public string DataBaseName { get; set; }
 
 
         public List<Medicine> Medicine { get; set; }

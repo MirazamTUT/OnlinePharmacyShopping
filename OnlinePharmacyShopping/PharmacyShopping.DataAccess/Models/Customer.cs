@@ -21,7 +21,7 @@
 
         public List<Purchase> Purchases { get; set; }
 
-        public List<Sales> Sales { get; set; }
+        public List<Sale> Sales { get; set; }
 
         public List<Report> Reports { get; set; }
     }

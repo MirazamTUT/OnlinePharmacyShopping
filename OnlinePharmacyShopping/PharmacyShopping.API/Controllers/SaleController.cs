@@ -11,13 +11,13 @@ namespace PharmacyShopping.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SalesController : ControllerBase
+    public class SaleController : ControllerBase
     {
         private readonly ISalesService _salesService;
-        private readonly IValidator<SalesRequestDTO> _validator;
-        private readonly ILogger<SalesController> _logger;
+        private readonly IValidator<SaleRequestDTO> _validator;
+        private readonly ILogger<SaleController> _logger;
 
-        public SalesController(ISalesService salesService, IValidator<SalesRequestDTO> validator, ILogger<SalesController> logger)
+        public SaleController(ISalesService salesService, IValidator<SaleRequestDTO> validator, ILogger<SaleController> logger)
         {
             _salesService = salesService;
             _validator = validator;
@@ -25,7 +25,7 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddSalesAsync(SalesRequestDTO salesRequestDTO)
+        public async Task<ActionResult<int>> AddSalesAsync(SaleRequestDTO salesRequestDTO)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpGet("Id")]
-        public async Task<ActionResult<SalesResponseDTO>> GetSalesByIdAsync(int id)
+        public async Task<ActionResult<SaleResponseDTO>> GetSalesByIdAsync(int id)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<ActionResult<List<SalesResponseDTO>>> GetAllSalesAsync()
+        public async Task<ActionResult<List<SaleResponseDTO>>> GetAllSalesAsync()
         {
             try
             {
@@ -108,7 +108,7 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPut("Id")]
-        public async Task<ActionResult<int>> UpdateSalesAsync(SalesRequestDTO salesRequestDTO, int id)
+        public async Task<ActionResult<int>> UpdateSalesAsync(SaleRequestDTO salesRequestDTO, int id)
         {
             try
             {

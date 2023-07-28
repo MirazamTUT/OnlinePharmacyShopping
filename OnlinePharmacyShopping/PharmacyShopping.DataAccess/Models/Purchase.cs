@@ -6,17 +6,19 @@
 
         public int CustomerId { get; set; }
 
+        public int SaleId { get; set; }
+
         public int MedicineId { get; set; }
 
-        public double Amount { get; set; }
+        public int Amount { get; set; }
 
         public DateTime PurchaseDate { get; set; }
 
 
-        public Sales Sales { get; set; }
-
         public Customer Customer { get; set; }
 
         public Medicine Medicine { get; set; }
+
+        public Sale Sale { get; set; }
     }
 }

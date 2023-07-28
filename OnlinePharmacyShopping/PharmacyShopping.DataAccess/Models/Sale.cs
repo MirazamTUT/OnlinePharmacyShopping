@@ -1,17 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PharmacyShopping.DataAccess.Models
+﻿namespace PharmacyShopping.DataAccess.Models
 {
-    public class Sales
+    public class Sale
     {
-        [Key]
         public int SaleId { get; set; }
 
         public int PharmacyId { get; set; }
 
         public int CustomerId { get; set; }
-
-        public List<int> PurchaseId { get; set; }
 
         public DateTime SaleDate { get; set; }
 

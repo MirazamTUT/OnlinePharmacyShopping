@@ -108,11 +108,11 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<ActionResult<List<MedicineResponseDTO>>> GetAllMedicine()
+        public async Task<ActionResult<List<MedicineResponseDTO>>> GetAllMedicine(string? searchWord)
         {
             try
             {
-                return await _medicineService.GetMedicinesAsync();
+                return await _medicineService.GetMedicinesAsync(searchWord);
             }
             catch (AutoMapperMappingException ex)
             {

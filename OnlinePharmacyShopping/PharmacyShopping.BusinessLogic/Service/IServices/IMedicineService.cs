@@ -9,7 +9,7 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<MedicineResponseDTO> GetMedicineByIdAsync(int medicineId);
 
-        Task<List<MedicineResponseDTO>> GetMedicinesAsync();
+        Task<List<MedicineResponseDTO>> GetMedicinesAsync(string? searchWord);
 
         Task<List<int>> GetAllReportMedicineByMedicineIdAsync(int medicineId);
 

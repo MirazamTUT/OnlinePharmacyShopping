@@ -73,10 +73,6 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                 {
                     allCustomer = allCustomer.Where(n => n.CustomerFirstName.Contains(searchWord) || n.CustomerLastName.Contains(searchWord)).ToList();
                 }
-                else
-                {
-                    allCustomer = allCustomer.OrderBy(n => n.CustomerId).ToList();
-                }
                 _logger.LogInformation("All Customers were found successfully.");
                 return allCustomer;
             }

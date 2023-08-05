@@ -13,6 +13,6 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 
         Task<CustomerResponseDTO> GetCustomerByIdAsync(int id);
 
-        Task<List<CustomerResponseDTO>> GetAllCustomersAsync();
+        Task<List<CustomerResponseDTO>> GetAllCustomersAsync(string? searchWord);
     }
 }

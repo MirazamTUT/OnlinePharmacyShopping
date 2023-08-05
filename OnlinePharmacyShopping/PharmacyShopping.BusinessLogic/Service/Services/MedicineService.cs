@@ -99,12 +99,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<List<MedicineResponseDTO>> GetMedicinesAsync()
+        public async Task<List<MedicineResponseDTO>> GetMedicinesAsync(string? searchWord)
         {
             try
             {
                 _logger.LogInformation("All Medicines were found successfully.");
-                return _mapper.Map<List<MedicineResponseDTO>>(await _medicineRepository.GetAllMedicinesAsync());
+                return _mapper.Map<List<MedicineResponseDTO>>(await _medicineRepository.GetAllMedicinesAsync(searchWord));
             }
             catch (AutoMapperMappingException ex)
             {

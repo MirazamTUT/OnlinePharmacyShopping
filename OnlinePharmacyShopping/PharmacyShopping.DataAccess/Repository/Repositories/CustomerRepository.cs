@@ -59,17 +59,22 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<Customer>> GetAllCustomersAsync()
+        public async Task<List<Customer>> GetAllCustomersAsync(string? searchWord)
         {
             try
             {
-                _logger.LogInformation("All Customers were found successfully.");
-                return await _pharmacyDbContext.Customers
+                var allCustomer = await _pharmacyDbContext.Customers
                     .Include(x => x.Purchases)
                     .Include(x => x.Sales)
                     .Include(x => x.Reports)
                     .AsSplitQuery()
                     .ToListAsync();
+                if (!string.IsNullOrEmpty(searchWord))
+                {
+                    allCustomer = allCustomer.Where(n => n.CustomerFirstName.Contains(searchWord) || n.CustomerLastName.Contains(searchWord)).ToList();
+                }
+                _logger.LogInformation("All Customers were found successfully.");
+                return allCustomer;
             }
             catch (InvalidOperationException ex)
             {

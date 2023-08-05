@@ -8,8 +8,8 @@
 
         public string MedicineName { get; set; }
 
-        public DateTime PurchaseDate { get; set; }
+        public int Amount { get; set; }
 
-        public double Amount { get; set; }
+        public double TotalPrice { get; set; }
     }
 }

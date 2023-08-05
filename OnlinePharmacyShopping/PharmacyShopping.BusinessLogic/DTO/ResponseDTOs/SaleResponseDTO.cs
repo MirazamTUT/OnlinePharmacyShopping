@@ -13,5 +13,7 @@
         public List<int> PurchaseId { get; set; }
 
         public DateTime SaleDate { get; set; }
+
+        public double TotalPrice { get; set; }
     }
 }

@@ -14,6 +14,6 @@
 
         public double MedicinePrice { get; set; }
 
-        public double AmountOfMedicine { get; set; }
+        public int AmountOfMedicine { get; set; }
     }
 }

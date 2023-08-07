@@ -15,7 +15,7 @@ namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 
         public double MedicinePrice { get; set; }
 
-        public double AmountOfMedecine { get; set; }
+        public int AmountOfMedecine { get; set; }
     }
 }
 
@@ -43,6 +43,7 @@ public class MedicineRequestDTOValidation : AbstractValidator<MedicineRequestDTO
 
         RuleFor(u => u.AmountOfMedecine)
             .NotNull().WithMessage("Amount of Medicine must be entered.")
-            .NotEmpty().WithMessage("Amount of Medicine cannot be empty.");
+            .NotEmpty().WithMessage("Amount of Medicine cannot be empty.")
+            .GreaterThan(0).WithMessage("Amount of Medicine must be greater than 0.");
     }
 }

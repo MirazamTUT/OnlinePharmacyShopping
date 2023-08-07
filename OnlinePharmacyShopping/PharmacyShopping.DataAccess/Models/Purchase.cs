@@ -12,7 +12,7 @@
 
         public int Amount { get; set; }
 
-        public DateTime PurchaseDate { get; set; }
+        public double TotalPrice { get; set; }
 
 
         public Customer Customer { get; set; }

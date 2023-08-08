@@ -59,11 +59,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<List<Pharmacy>> GetAllPharmacyAsync()
+        public async Task<List<Pharmacy>> GetAllPharmaciesAsync()
         {
             try
             {
-                _logger.LogInformation("All Pharmacy were found successfully.");
+                _logger.LogInformation("All Pharmacies were found successfully.");
                 return await _context.Pharmacies
                     .Include(u => u.Sales)
                     .Include(u => u.Reports)
@@ -72,13 +72,13 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving all Pharmacys in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving all Pharmacies in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was giving the information.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"There is an error retrieving all Pharmacys from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
-                throw new Exception("Operation was failed when it was giving Pharmacys information.");
+                _logger.LogError($"There is an error retrieving all Pharmacies from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving Pharmacies information.");
             }
         }
 

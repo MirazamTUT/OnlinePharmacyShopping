@@ -18,5 +18,7 @@
         public List<Purchase> Purchases { get; set; }
 
         public Customer Customer { get; set; }
+
+        public Payment Payment { get; set; }
     }
 }

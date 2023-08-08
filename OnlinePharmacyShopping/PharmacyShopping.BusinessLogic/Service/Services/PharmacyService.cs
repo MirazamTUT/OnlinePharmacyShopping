@@ -11,8 +11,8 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
 {
     public class PharmacyService : IPharmacyService
     {
-        private readonly IMapper _mapper;
         private readonly IPharmacyRepository _repository;
+        private readonly IMapper _mapper;
         private readonly ILogger<PharmacyService> _logger;
 
         public PharmacyService(IPharmacyRepository repository, IMapper mapper, ILogger<PharmacyService> logger)
@@ -73,12 +73,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
         }
 
-        public async Task<List<PharmacyResponseDTO>> GetAllPharmacyAsync()
+        public async Task<List<PharmacyResponseDTO>> GetAllPharmaciesAsync()
         {
             try
             {
-                _logger.LogInformation("All Pharmacys were found successfully.");
-                return _mapper.Map<List<PharmacyResponseDTO>>(await _repository.GetAllPharmacyAsync());
+                _logger.LogInformation("All Pharmacies were found successfully.");
+                return _mapper.Map<List<PharmacyResponseDTO>>(await _repository.GetAllPharmaciesAsync());
             }
             catch (AutoMapperMappingException ex)
             {
@@ -87,12 +87,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving all Pharmacys in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving all Pharmacies in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"There is an error retrieving all Pharmacys from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"There is an error retrieving all Pharmacies from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
             }
         }

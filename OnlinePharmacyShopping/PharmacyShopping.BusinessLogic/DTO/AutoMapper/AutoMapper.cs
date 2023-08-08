@@ -24,6 +24,10 @@ namespace PharmacyShopping.BusinessLogic.DTO.AutoMapper
             CreateMap<MedicineRequestDTO, Medicine>().ReverseMap();
             CreateMap<Medicine, MedicineResponseDTO>().ReverseMap();
 
+            // PaymentAutoMapper
+            CreateMap<PaymentRequestDTO, Payment>().ReverseMap();
+            CreateMap<Payment, PaymentResponseDTO>().ReverseMap();
+
             // PharmacyAutoMapper
             CreateMap<PharmacyRequestDTO, Pharmacy>().ReverseMap();
             CreateMap<Pharmacy, PharmacyResponseDTO>().ReverseMap();

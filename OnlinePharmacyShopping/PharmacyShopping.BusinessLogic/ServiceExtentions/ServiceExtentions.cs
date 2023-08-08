@@ -13,27 +13,39 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // mvc
             services.AddMvc();
+
+            // Validation
             services.AddScoped<IValidator<CustomerRequestDTO>, CustomerRequestDTOValidator>();
             services.AddScoped<IValidator<MedicineRequestDTO>, MedicineRequestDTOValidation>();
+            services.AddScoped<IValidator<PaymentRequestDTO>, PaymentRequestDTOValidation>();
             services.AddScoped<IValidator<PharmacyRequestDTO>, PharmacyRequestDTOValidation>();
             services.AddScoped<IValidator<PurchaseRequestDTO>, PurchaseRequestDTOValidation>();
             services.AddScoped<IValidator<ReportRequestDTO>, ReportRequestDTOValidation>();
             services.AddScoped<IValidator<SaleRequestDTO>, SaleRequestDTOValidation>();
+
+            // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<ISaleRepository, SaleRepository>();
+            
+            // Repository
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDataBaseRepository, DataBaseRepository>();
             services.AddScoped<IMedicineRepository, MedicineRepository>();
-            services.AddScoped<IReportRepository, ReportRepository>();
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IReportMedicineRepository, ReportMedicineRepository>();
+            services.AddScoped<ISaleRepository, SaleRepository>();
+
+            // Services
             services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IDataBaseService, DataBaseService>();
-            services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IMedicineService, MedicineService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPharmacyService, PharmacyService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<ISalesService, SalesService>();
         }

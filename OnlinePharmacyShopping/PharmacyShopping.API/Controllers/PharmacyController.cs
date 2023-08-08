@@ -83,12 +83,12 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<ActionResult<List<PharmacyResponseDTO>>> GetAllPharmacyAsync()
+        public async Task<ActionResult<List<PharmacyResponseDTO>>> GetAllPharmaciesAsync()
         {
             try
             {
                 _logger.LogInformation("All Pharmacys were found successfully.");
-                return await _pharmacyService.GetAllPharmacyAsync();
+                return await _pharmacyService.GetAllPharmaciesAsync();
             }
             catch (AutoMapperMappingException ex)
             {

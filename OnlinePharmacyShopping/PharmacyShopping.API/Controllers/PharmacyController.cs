@@ -87,7 +87,7 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                _logger.LogInformation("All Pharmacys were found successfully.");
+                _logger.LogInformation("All Pharmacies were found successfully.");
                 return await _pharmacyService.GetAllPharmaciesAsync();
             }
             catch (AutoMapperMappingException ex)
@@ -97,12 +97,12 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving all Pharmacys in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving all Pharmacies in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"There is an error retrieving all Pharmacys from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"There is an error retrieving all Pharmacies from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

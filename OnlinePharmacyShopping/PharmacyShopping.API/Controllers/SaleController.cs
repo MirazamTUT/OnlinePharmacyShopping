@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -29,16 +28,8 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                ValidationResult validationResult = await _validator.ValidateAsync(salesRequestDTO);
-                if(validationResult.IsValid)
-                {
-                    _logger.LogInformation("Sales was successfully added.");
-                    return await _salesService.AddSalesAsync(salesRequestDTO);
-                }
-                else
-                {
-                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
-                }
+                _logger.LogInformation("Sales was successfully added.");
+                return await _salesService.AddSalesAsync(salesRequestDTO);
             }
             catch (AutoMapperMappingException ex)
             {
@@ -112,16 +103,8 @@ namespace PharmacyShopping.API.Controllers
         {
             try
             {
-                ValidationResult validationResult = await _validator.ValidateAsync(salesRequestDTO);
-                if (validationResult.IsValid)
-                {
-                    _logger.LogInformation("Sales was successfully updated.");
-                    return await _salesService.UpdateSalesAsync(salesRequestDTO, id);
-                }
-                else
-                {
-                    throw new Exception("Sales for update is not available.");
-                }
+                _logger.LogInformation("Sales was successfully updated.");
+                return await _salesService.UpdateSalesAsync(salesRequestDTO, id);
             }
             catch (AutoMapperMappingException ex)
             {

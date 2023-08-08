@@ -10,7 +10,9 @@
 
         public DateTime SaleDate { get; set; }
 
-        public double TotalAmount { get; set; }
+        public int TotalAmount { get; set; }
+
+        public double TotalPrice { get; set; }
 
 
         public Pharmacy Pharmacy { get; set; }

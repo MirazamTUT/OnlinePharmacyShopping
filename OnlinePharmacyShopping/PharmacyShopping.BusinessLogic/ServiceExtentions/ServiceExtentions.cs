@@ -23,7 +23,6 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
             services.AddScoped<IValidator<PharmacyRequestDTO>, PharmacyRequestDTOValidation>();
             services.AddScoped<IValidator<PurchaseRequestDTO>, PurchaseRequestDTOValidation>();
             services.AddScoped<IValidator<ReportRequestDTO>, ReportRequestDTOValidation>();
-            services.AddScoped<IValidator<SaleRequestDTO>, SaleRequestDTOValidation>();
 
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

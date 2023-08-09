@@ -50,7 +50,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var salesResult = await _salesRepository.GetSalesByCustomerIdAsync(id);
+                var salesResult = await _salesRepository.GetSalesByIdAsync(id);
                 if (salesResult is not null)
                 {
                     _logger.LogInformation("Sales was successfully deleted.");
@@ -102,7 +102,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             try
             {
                 _logger.LogInformation("SalesById was found successfully.");
-                return _mapper.Map<SaleResponseDTO>(await _salesRepository.GetSalesByCustomerIdAsync(id));
+                return _mapper.Map<SaleResponseDTO>(await _salesRepository.GetSalesByIdAsync(id));
             }
             catch (AutoMapperMappingException ex)
             {
@@ -125,7 +125,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var salesResult = await _salesRepository.GetSalesByCustomerIdAsync(id);
+                var salesResult = await _salesRepository.GetSalesByIdAsync(id);
                 if (salesResult is not null)
                 {
                     salesResult = _mapper.Map<Sale>(salesRequestDTO);

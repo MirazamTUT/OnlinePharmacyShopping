@@ -21,7 +21,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
-                sales.SaleDate = DateTime.Now;
+                sales.SaleDate = DateTime.UtcNow;
                 _context.Sales.Add(sales);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Sales was successfully added.");
@@ -84,7 +84,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<Sale> GetSalesByCustomerIdAsync(int id)
+        public async Task<Sale> GetSalesByIdAsync(int id)
         {
             try
             {
@@ -127,6 +127,12 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
                 _logger.LogError($"An unexpected error occurred while updating Sales {sales.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was updating changes.");
             }
+        }
+
+        public async Task UpdateForPatchSaleAsync(Sale sale, double price)
+        {
+            sale.TotalPrice += price;
+            _context.SaveChangesAsync();
         }
     }
 }

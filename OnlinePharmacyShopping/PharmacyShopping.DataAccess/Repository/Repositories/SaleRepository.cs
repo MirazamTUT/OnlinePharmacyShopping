@@ -21,7 +21,7 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
         {
             try
             {
-                sales.SaleDate = DateTime.Now;
+                sales.SaleDate = DateTime.UtcNow;
                 _context.Sales.Add(sales);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Sales was successfully added.");

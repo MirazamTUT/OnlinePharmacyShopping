@@ -21,7 +21,7 @@ public class PaymentRequestDTOValidation : AbstractValidator<PaymentRequestDTO>
         RuleFor(u => u.CreditCardNumber)
             .NotNull().WithMessage("CreditCard must be entered.")
             .NotEmpty().WithMessage("CreditCard cannot be empty.")
-            .Equals(16);
+            .Length(16).WithMessage("Your CreditCard must be with 16 numbers");
 
         RuleFor(u => u.TotalPrice)
             .NotNull().WithMessage("TotalPrice must be entered.")

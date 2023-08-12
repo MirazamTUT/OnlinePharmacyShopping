@@ -129,10 +129,11 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task UpdateForPatchSaleAsync(Sale sale, double price)
+        public async Task UpdateForPatchSaleAsync(int saleId, double price)
         {
+            var sale = await GetSalesByIdAsync(saleId);
             sale.TotalPrice += price;
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

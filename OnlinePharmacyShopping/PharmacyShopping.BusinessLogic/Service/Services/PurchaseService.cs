@@ -35,7 +35,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 var medicine = await _medicineRepository.GetMedicineByIdAsync(purchaseResult.MedicineId);
                 purchaseResult.TotalPrice = (double)purchaseResult.Amount * medicine.MedicinePrice;
                 var id = await _purchaseRepository.AddPurchaseAsync(purchaseResult);
-                await _saleRepository.UpdateForPatchSaleAsync(await _saleRepository.GetSalesByIdAsync(purchaseResult.SaleId), purchaseResult.TotalPrice);
+                await _saleRepository.UpdateForPatchSaleAsync(purchaseResult.SaleId, purchaseResult.TotalPrice);
                 return id;
             }
             catch (AutoMapperMappingException ex)

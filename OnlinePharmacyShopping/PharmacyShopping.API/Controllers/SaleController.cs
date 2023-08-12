@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -13,13 +12,11 @@ namespace PharmacyShopping.API.Controllers
     public class SaleController : ControllerBase
     {
         private readonly ISalesService _salesService;
-        private readonly IValidator<SaleRequestDTO> _validator;
         private readonly ILogger<SaleController> _logger;
 
-        public SaleController(ISalesService salesService, IValidator<SaleRequestDTO> validator, ILogger<SaleController> logger)
+        public SaleController(ISalesService salesService, ILogger<SaleController> logger)
         {
             _salesService = salesService;
-            _validator = validator;
             _logger = logger;
         }
 

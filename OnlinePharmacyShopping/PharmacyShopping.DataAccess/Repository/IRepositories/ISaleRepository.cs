@@ -12,6 +12,8 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 
         Task<List<Sale>> GetAllSalesAsync();
 
-        Task<Sale> GetSalesByCustomerIdAsync(int id);
+        Task<Sale> GetSalesByIdAsync(int id);
+
+        Task UpdateForPatchSaleAsync(int saleId, double price);
     }
 }

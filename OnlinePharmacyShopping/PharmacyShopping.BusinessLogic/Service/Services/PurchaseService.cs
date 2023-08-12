@@ -12,14 +12,18 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
     public class PurchaseService : IPurchaseService
     {
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IMedicineRepository _medicineRepository;
+        private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<PurchaseService> _logger;
 
-        public PurchaseService(IPurchaseRepository purchaseRepository, ILogger<PurchaseService> logger, IMapper mapper)
+        public PurchaseService(IPurchaseRepository purchaseRepository, ILogger<PurchaseService> logger, IMapper mapper, IMedicineRepository medicineRepository, ISaleRepository saleRepository)
         {
             _purchaseRepository = purchaseRepository;
             _mapper = mapper;
             _logger = logger;
+            _medicineRepository = medicineRepository;
+            _saleRepository = saleRepository;
         }
 
         public async Task<int> AddPurchaseAsync(PurchaseRequestDTO purchaseRequestDTO)
@@ -27,7 +31,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             try
             {
                 _logger.LogInformation("Purchase was successfully added.");
-                return await _purchaseRepository.AddPurchaseAsync(_mapper.Map<Purchase>(purchaseRequestDTO));
+                var purchaseResult = _mapper.Map<Purchase>(purchaseRequestDTO);
+                var medicine = await _medicineRepository.GetMedicineByIdAsync(purchaseResult.MedicineId);
+                purchaseResult.TotalPrice = (double)purchaseResult.Amount * medicine.MedicinePrice;
+                var id = await _purchaseRepository.AddPurchaseAsync(purchaseResult);
+                await _saleRepository.UpdateForPatchSaleAsync(purchaseResult.SaleId, purchaseResult.TotalPrice);
+                return id;
             }
             catch (AutoMapperMappingException ex)
             {

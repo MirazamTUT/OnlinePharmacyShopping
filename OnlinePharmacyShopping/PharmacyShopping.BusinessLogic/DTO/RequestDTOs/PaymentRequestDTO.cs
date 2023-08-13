@@ -5,12 +5,11 @@ namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 {
     public class PaymentRequestDTO
     {
-        public int SaleID { get; set; }
+        public int SaleId { get; set; }
 
         public string CreditCardNumber { get; set; }
 
         public double TotalPrice { get; set; }
-
     }
 }
 

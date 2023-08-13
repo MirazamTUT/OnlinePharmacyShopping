@@ -4,7 +4,7 @@
     {
         public int PaymentId { get; set; }
 
-        public int SaleID { get; set; }
+        public int SaleId { get; set; }
 
         public string CreditCardNumber { get; set; }
 

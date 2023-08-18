@@ -26,6 +26,8 @@ namespace PharmacyShopping.DataAccess.DbConnection
 
         public DbSet<Sale> Sales { get; set; }
 
+        public DbSet<Payment> Payments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ReportMedicine>()

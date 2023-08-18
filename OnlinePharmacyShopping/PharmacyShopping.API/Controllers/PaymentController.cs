@@ -6,34 +6,35 @@ using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
+using PharmacyShopping.BusinessLogic.Service.Services;
 
 namespace PharmacyShopping.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PharmacyController : ControllerBase
+    public class PaymentController : ControllerBase
     {
-        private readonly IPharmacyService _pharmacyService;
-        private readonly IValidator<PharmacyRequestDTO> _validator;
-        private readonly ILogger<PharmacyController> _logger;
+        private readonly IPaymentService _paymentService;
+        private readonly IValidator<PaymentRequestDTO> _validator;
+        private readonly ILogger<PaymentController> _logger;
 
-        public PharmacyController(IPharmacyService pharmacyService, IValidator<PharmacyRequestDTO> validator, ILogger<PharmacyController> logger)
+        public PaymentController(IPaymentService paymentService, IValidator<PaymentRequestDTO> validator, ILogger<PaymentController> logger)
         {
-            _pharmacyService = pharmacyService;
+            _paymentService = paymentService;
             _validator = validator;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddPharmacyAsync(PharmacyRequestDTO pharmacyRequestDto)
+        public async Task<ActionResult<int>> AddPaymentAsync(PaymentRequestDTO paymentRequestDTO)
         {
             try
             {
-                ValidationResult validationResult = await _validator.ValidateAsync(pharmacyRequestDto);
+                ValidationResult validationResult = await _validator.ValidateAsync(paymentRequestDTO);
                 if (validationResult.IsValid)
                 {
-                    _logger.LogInformation("Pharmacy was successfully added.");
-                    return await _pharmacyService.AddPharmacyAsync(pharmacyRequestDto);
+                    _logger.LogInformation("Payment was successfully added.");
+                    return await _paymentService.AddPaymentAsync(paymentRequestDTO);
                 }
                 else
                 {
@@ -47,23 +48,23 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"There is an error adding Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"There is an error adding Payment to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unexpected error saving Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"Unexpected error saving Payment to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
         [HttpGet("Id")]
-        public async Task<ActionResult<PharmacyResponseDTO>> GetPharmacyByIdAsync(int id)
+        public async Task<ActionResult<PaymentResponseDTO>> GetPaymentByIdAsync(int id)
         {
             try
             {
-                _logger.LogInformation("PharmacyById was found successfully.");
-                return await _pharmacyService.GetPharmacyByIdAsync(id);
+                _logger.LogInformation("PaymentById was found successfully.");
+                return await _paymentService.GetPaymentByIdAsync(id);
             }
             catch (AutoMapperMappingException ex)
             {
@@ -72,23 +73,23 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving PaymentById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"An unexpected error occurred while retrieving PharmacyById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An unexpected error occurred while retrieving PaymentById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
         [HttpGet("All")]
-        public async Task<ActionResult<List<PharmacyResponseDTO>>> GetAllPharmaciesAsync()
+        public async Task<ActionResult<List<PaymentResponseDTO>>> GetAllPaymentsAsync()
         {
             try
             {
-                _logger.LogInformation("All Pharmacies were found successfully.");
-                return await _pharmacyService.GetAllPharmaciesAsync();
+                _logger.LogInformation("All Payments were found successfully.");
+                return await _paymentService.GetAllPaymentsAsync();
             }
             catch (AutoMapperMappingException ex)
             {
@@ -97,30 +98,30 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"An error occurred while retrieving all Pharmacies in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while retrieving all Payments in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"There is an error retrieving all Pharmacies from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"There is an error retrieving all Payments from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
         [HttpPut("Id")]
-        public async Task<ActionResult<int>> UpdatePharmacyAsync(PharmacyRequestDTO pharmacyRequestDTO, int id)
+        public async Task<ActionResult<int>> UpdatePaymentAsync(PaymentRequestDTO paymentRequestDTO, int id)
         {
             try
             {
-                ValidationResult validationResult = await _validator.ValidateAsync(pharmacyRequestDTO);
+                ValidationResult validationResult = await _validator.ValidateAsync(paymentRequestDTO);
                 if (validationResult.IsValid)
                 {
-                    _logger.LogInformation("Pharmacy was successfully updated.");
-                    return await _pharmacyService.UpdatePharmacyAsync(pharmacyRequestDTO, id);
+                    _logger.LogInformation("Payment was successfully updated.");
+                    return await _paymentService.UpdatePaymentAsync(paymentRequestDTO, id);
                 }
                 else
                 {
-                    throw new Exception("Pharmacy for update is not available.");
+                    throw new Exception("Payment for update is not available.");
                 }
             }
             catch (AutoMapperMappingException ex)
@@ -130,32 +131,32 @@ namespace PharmacyShopping.API.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"An error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while updating Payment {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"An unexpected error occurred while updating Pharmacy {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An unexpected error occurred while updating Payment {id} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 
         [HttpDelete("Id")]
-        public async Task<ActionResult<int>> DeletePharmacyAsync(int id)
+        public async Task<ActionResult<int>> DeletePaymentAsync(int id)
         {
             try
             {
-                _logger.LogInformation("Pharmacy was successfully deleted.");
-                return await _pharmacyService.DeletePharmacyAsync(id);
+                _logger.LogInformation("Payment was successfully deleted.");
+                return await _paymentService.DeletePaymentAsync(id);
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"There is an error deleting Pharmacy to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"There is an error deleting Payment to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unexpected error deleting Pharmacy to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"Unexpected error deleting Payment to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }

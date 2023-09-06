@@ -10,8 +10,8 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
 
         Task<List<Medicine>> GetAllMedicinesAsync(string? searchWord);
 
-        Task<int> UpdateMedicineAsync(Medicine medicine);
-
         Task<int> DeleteMedicineAsync(Medicine medicine);
+
+        Task<int> UpdateMedicineAsync(Medicine medicine);
     }
 }

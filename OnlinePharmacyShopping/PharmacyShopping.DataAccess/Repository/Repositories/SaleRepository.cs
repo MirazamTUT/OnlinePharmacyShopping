@@ -141,12 +141,12 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"An error occurred while updating Sale {sale.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while updating Sale {saleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"An unexpected error occurred while updating Sale {sale.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An unexpected error occurred while updating Sale {saleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was updating changes.");
             }
         }

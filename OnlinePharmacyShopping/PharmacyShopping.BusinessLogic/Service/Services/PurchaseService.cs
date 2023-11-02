@@ -30,12 +30,21 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                _logger.LogInformation("Purchase was successfully added.");
+                // AddPurchase metodi uchun Purchase yasalmoqda:
                 var purchaseResult = _mapper.Map<Purchase>(purchaseRequestDTO);
+
+                // Umumiy MedicinePriceni xisoblab Purchase.TotalPricega tenglashtirilmoqda:
                 var medicine = await _medicineRepository.GetMedicineByIdAsync(purchaseResult.MedicineId);
                 purchaseResult.TotalPrice = (double)purchaseResult.Amount * medicine.MedicinePrice;
+
+                // AddPurchase ishlatilinib uning IDsini var id orqali tutib olyapmiz:
                 var id = await _purchaseRepository.AddPurchaseAsync(purchaseResult);
-                await _saleRepository.UpdateForPatchSaleAsync(purchaseResult.SaleId, purchaseResult.TotalPrice);
+
+                // Purchase qo'shilvotganida SalePricega Purchasening priceni qo'shish amali bajarilmoqda:
+                await _saleRepository.AddingNewPriceToSaleTotalPriceAsync(purchaseResult.SaleId, purchaseResult.TotalPrice);
+
+                // Final:
+                _logger.LogInformation("Purchase was successfully added.");
                 return id;
             }
             catch (AutoMapperMappingException ex)

@@ -108,32 +108,47 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
-        public async Task<int> UpdateSalesAsync(Sale sales)
+        public async Task<int> UpdateSalesAsync(Sale sale)
         {
             try
             {
-                _context.Sales.Update(sales);
+                _context.Sales.Update(sale);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Sales was successfully updated.");
-                return sales.SaleId;
+                _logger.LogInformation("Sale was successfully updated.");
+                return sale.SaleId;
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"An error occurred while updating Sales {sales.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An error occurred while updating Sale {sale.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Connection between database is failed.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"An unexpected error occurred while updating Sales {sales.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                _logger.LogError($"An unexpected error occurred while updating Sale {sale.SaleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception("Operation was failed when it was updating changes.");
             }
         }
 
-        public async Task UpdateForPatchSaleAsync(int saleId, double price)
+        // Patch for Sale
+        public async Task AddingNewPriceToSaleTotalPriceAsync(int saleId, double price)
         {
-            var sale = await GetSalesByIdAsync(saleId);
-            sale.TotalPrice += price;
-            await _context.SaveChangesAsync();
+            try
+            {
+                var sale = await GetSalesByIdAsync(saleId);
+                sale.TotalPrice += price;
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Sale was successfully updated.");
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError($"An error occurred while updating Sale {saleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Connection between database is failed.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An unexpected error occurred while updating Sale {saleId} in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was updating changes.");
+            }
         }
     }
 }

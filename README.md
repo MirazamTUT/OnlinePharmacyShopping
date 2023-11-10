@@ -21,3 +21,5 @@ ___
 ##### [Readme.md ni yozishda foydalangan manba](https://www.youtube.com/watch?v=NXNf9aYTCZ0&list=WL&index=6)
 
 ##### [Projectimizning dakumentatsiyasi](https://bugdac.atlassian.net/wiki/spaces/Documentat/overview).
+
+##### [Trellodagi project jadvali](https://trello.com/b/L00Hie0n/backendtoourproject).

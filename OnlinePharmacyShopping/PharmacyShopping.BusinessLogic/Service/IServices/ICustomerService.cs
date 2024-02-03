@@ -5,7 +5,9 @@ namespace PharmacyShopping.BusinessLogic.Service.IServices
 {
     public interface ICustomerService
     {
-        Task<int> AddCustomerAsync(CustomerRequestDTO cutomerRequestDTO);
+        Task<int> AddRegisterAsync(CustomerRequestDTO cutomerRequestDTO);
+
+        Task<string> LoginAsync(CustomerRequestDTOForLogin customerRequestDTOForLogin);
 
         Task<int> UpdateCustomerAsync(CustomerRequestDTO customerRequestDTO, int id);
 

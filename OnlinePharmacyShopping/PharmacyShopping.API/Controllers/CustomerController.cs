@@ -24,8 +24,8 @@ namespace PharmacyShopping.API.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<int>> AddCustomerAsync(CustomerRequestDTO customerRequestDTO)
+        [HttpPost("Register")]
+        public async Task<ActionResult<int>> AddRegisterAsync(CustomerRequestDTO customerRequestDTO)
         {
             try
             {

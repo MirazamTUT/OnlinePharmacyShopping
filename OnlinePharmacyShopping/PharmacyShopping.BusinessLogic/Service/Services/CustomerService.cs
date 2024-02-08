@@ -21,14 +21,12 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         private readonly IMapper _mapper;
         private readonly ILogger<CustomerService> _logger;
         private readonly IConfiguration _configuration;
-        public static Customer _customer;
 
-        public CustomerService(ICustomerRepository customerRepository, IMapper mapper, ILogger<CustomerService> logger, Customer customer, IConfiguration configuration)
+        public CustomerService(ICustomerRepository customerRepository, IMapper mapper, ILogger<CustomerService> logger, IConfiguration configuration)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;
             _logger = logger;
-            _customer = customer;
             _configuration = configuration;
         }
 
@@ -36,6 +34,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
+                var _customer = new Customer();
                 CreatePasswordHash(customerRequestDTO.CustomerPassword, out byte[] passwordHash, out byte[] passwordSalt);
                 _customer = _mapper.Map<Customer>(customerRequestDTO);
                 _customer.CustomerPasswordHash = passwordHash;

@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Bcpg;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
 using PharmacyShopping.DataAccess.Models;
 using PharmacyShopping.DataAccess.Repository.IRepositories;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace PharmacyShopping.BusinessLogic.Service.Services
@@ -16,14 +20,16 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CustomerService> _logger;
+        private readonly IConfiguration _configuration;
         public static Customer _customer;
 
-        public CustomerService(ICustomerRepository customerRepository, IMapper mapper, ILogger<CustomerService> logger, Customer customer)
+        public CustomerService(ICustomerRepository customerRepository, IMapper mapper, ILogger<CustomerService> logger, Customer customer, IConfiguration configuration)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;
             _logger = logger;
             _customer = customer;
+            _configuration = configuration;
         }
 
         public async Task<int> AddRegisterAsync(CustomerRequestDTO customerRequestDTO)
@@ -63,11 +69,11 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 var customerResult = customers[0];
                 if(customerResult.CustomerFullName == customerRequestDTOForLogin.CustomerFullName)
                 {
-                    var Apple = await _customerRepository.GetCustomerByIdAsync(customerResult.CustomerId);
-                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, Apple.CustomerPasswordHash, Apple.CustomerPasswordSalt))
+                    var customerModel = await _customerRepository.GetCustomerByIdAsync(customerResult.CustomerId);
+                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerModel.CustomerPasswordHash, customerModel.CustomerPasswordSalt))
                     {
-                        string A = " ";
-                        return A;
+                        string token = CreateToken(customerModel);
+                        return token;
                     }
                     else
                     {
@@ -78,6 +84,16 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 {
                     throw new Exception("Customer is not found");
                 }
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError($"There is an error login Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Unexpected error login Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was logging changes.");
             }
         }
 
@@ -206,6 +222,27 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
+        }
+
+        private string CreateToken(Customer customer)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, $"{customer.CustomerFirstName} {customer.CustomerLastName}")
+            };  
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
         }
     }
 }

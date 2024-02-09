@@ -64,14 +64,15 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var customers = await GetAllCustomersAsync(customerRequestDTOForLogin.CustomerFullName);
-                var customerResult = customers[0];
-                if(customerResult.CustomerFullName == customerRequestDTOForLogin.CustomerFullName)
+                var customerResult = await _customerRepository
+                    .GetCustomerByFirstAndLastNamesAsync(customerRequestDTOForLogin.CustomerFirstName, customerRequestDTOForLogin.CustomerLastName);
+                
+                if(customerResult.CustomerFirstName == customerRequestDTOForLogin.CustomerFirstName 
+                    && customerResult.CustomerLastName == customerRequestDTOForLogin.CustomerLastName)
                 {
-                    var customerModel = await _customerRepository.GetCustomerByIdAsync(customerResult.CustomerId);
-                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerModel.CustomerPasswordHash, customerModel.CustomerPasswordSalt))
+                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerResult.CustomerPasswordHash, customerResult.CustomerPasswordSalt))
                     {
-                        string token = CreateToken(customerModel);
+                        string token = CreateToken(customerResult);
                         return token;
                     }
                     else

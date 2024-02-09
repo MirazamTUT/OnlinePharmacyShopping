@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using PharmacyShopping.DataAccess.DbConnection;
 using PharmacyShopping.BusinessLogic.ServiceExtentions;
+using PharmacyShopping.DataAccess.DbConnection;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

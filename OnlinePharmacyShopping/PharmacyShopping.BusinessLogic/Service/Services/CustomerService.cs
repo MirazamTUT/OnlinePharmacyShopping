@@ -64,14 +64,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             try
             {
-                var customers = await GetAllCustomersAsync(customerRequestDTOForLogin.CustomerFullName);
+                var customers = await _customerRepository.GetAllCustomersByFullNameAsync(customerRequestDTOForLogin.CustomerFirstName, customerRequestDTOForLogin.CustomerLastName);
                 var customerResult = customers[0];
-                if(customerResult.CustomerFullName == customerRequestDTOForLogin.CustomerFullName)
+                if(customerResult is not null)
                 {
-                    var customerModel = await _customerRepository.GetCustomerByIdAsync(customerResult.CustomerId);
-                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerModel.CustomerPasswordHash, customerModel.CustomerPasswordSalt))
+                    if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerResult.CustomerPasswordHash, customerResult.CustomerPasswordSalt))
                     {
-                        string token = CreateToken(customerModel);
+                        string token = CreateToken(customerResult);
                         return token;
                     }
                     else
@@ -232,7 +231,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,

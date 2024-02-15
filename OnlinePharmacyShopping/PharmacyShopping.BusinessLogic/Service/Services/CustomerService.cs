@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Bcpg;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
@@ -66,7 +65,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 var customers = await _customerRepository.GetAllCustomersByFullNameAsync(customerRequestDTOForLogin.CustomerFirstName, customerRequestDTOForLogin.CustomerLastName);
                 var customerResult = customers[0];
-                if(customerResult is not null)
+                if (customerResult is not null)
                 {
                     if (VerifyPasswordHash(customerRequestDTOForLogin.CustomerPassword, customerResult.CustomerPasswordHash, customerResult.CustomerPasswordSalt))
                     {
@@ -143,7 +142,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 _logger.LogError($"There is an error retrieving all Customers from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
-            }       
+            }
         }
 
         public async Task<CustomerResponseDTO> GetCustomerByIdAsync(int id)
@@ -167,7 +166,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
             {
                 _logger.LogError($"An unexpected error occurred while retrieving CustomerById from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
                 throw new Exception(ex.Message);
-            }         
+            }
         }
 
         public async Task<int> UpdateCustomerAsync(CustomerRequestDTO customerRequestDTO, int id)
@@ -206,7 +205,7 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using(var hmac = new HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
@@ -226,8 +225,9 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, $"{customer.CustomerFirstName} {customer.CustomerLastName}")
-            };  
+                new Claim(ClaimTypes.Name, $"{customer.CustomerFirstName} {customer.CustomerLastName}"),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 

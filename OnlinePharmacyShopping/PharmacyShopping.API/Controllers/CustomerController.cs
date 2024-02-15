@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -92,7 +93,7 @@ namespace PharmacyShopping.API.Controllers
             }
         }
 
-        [HttpGet("Id")]
+        [HttpGet("Id"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByIdAsync(int id)
         {
             try

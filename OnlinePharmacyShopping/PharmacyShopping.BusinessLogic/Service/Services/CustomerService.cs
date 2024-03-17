@@ -39,6 +39,13 @@ namespace PharmacyShopping.BusinessLogic.Service.Services
                 _customer.CustomerPasswordHash = passwordHash;
                 _customer.CustomerPasswordSalt = passwordSalt;
 
+                using var memoryStream = new MemoryStream();
+                await customerRequestDTO.formFile.CopyToAsync(memoryStream);
+                var fileContent = memoryStream.ToArray();
+
+                _customer.ContentType = customerRequestDTO.formFile.ContentType;
+                _customer.ContentOfImage = fileContent;
+
                 _logger.LogInformation("Customer was successfully added.");
                 return await _customerRepository.AddCustomerAsync(_customer);
             }

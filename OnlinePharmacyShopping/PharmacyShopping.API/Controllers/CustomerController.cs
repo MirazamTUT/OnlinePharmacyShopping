@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.BusinessLogic.DTO.ResponseDTOs;
 using PharmacyShopping.BusinessLogic.Service.IServices;
+using System.Collections;
 
 namespace PharmacyShopping.API.Controllers
 {
@@ -27,8 +28,8 @@ namespace PharmacyShopping.API.Controllers
             _validatorForLogin = validatorForLogin;
         }
 
-        [HttpPost("Register")]
-        public async Task<ActionResult<int>> RegisterAsync(CustomerRequestDTO customerRequestDTO)
+        [HttpPost("Register"), DisableRequestSizeLimit]
+        public async Task<ActionResult<int>> RegisterAsync([FromForm] CustomerRequestDTO customerRequestDTO)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> LoginAsync(CustomerRequestDTOForLogin customerRequestDTOForLogin)
+        public async Task<ActionResult<string>> LoginAsync([FromForm] CustomerRequestDTOForLogin customerRequestDTOForLogin)
         {
             try
             {
@@ -94,12 +95,18 @@ namespace PharmacyShopping.API.Controllers
         }
 
         [HttpGet("Id"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByIdAsync(int id)
+        public async Task<IActionResult> GetCustomerByIdAsync(int id)
         {
             try
             {
+                var customerResponseDTO = await _customerService.GetCustomerByIdAsync(id);
+                var content = customerResponseDTO.ContentOfImage;
+                var contentType = customerResponseDTO.ContentType;
+                customerResponseDTO.ContentOfImage = null;
+                customerResponseDTO.ContentType = null;
+                var Image = new MemoryStream(content);
                 _logger.LogInformation("CustomerById was found successfully.");
-                return await _customerService.GetCustomerByIdAsync(id);
+                return customerResponseDTO;
             }
             catch (AutoMapperMappingException ex)
             {

@@ -13,5 +13,7 @@ namespace PharmacyShopping.DataAccess.Repository.IRepositories
         Task<Customer> GetCustomerByIdAsync(int id);
 
         Task<List<Customer>> GetAllCustomersAsync(string? searchWord);
+
+        Task<List<Customer>> GetAllCustomersByFullNameAsync(string searchByFirstName, string searchByLastName);
     }
 }

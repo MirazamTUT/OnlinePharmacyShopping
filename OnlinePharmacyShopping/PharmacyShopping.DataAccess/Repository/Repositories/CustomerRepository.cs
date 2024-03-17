@@ -88,6 +88,32 @@ namespace PharmacyShopping.DataAccess.Repository.Repositories
             }
         }
 
+        public async Task<List<Customer>> GetAllCustomersByFullNameAsync(string searchByFirstName, string searchByLastName)
+        {
+            try
+            {
+                var allCustomersByFullName = await _pharmacyDbContext.Customers
+                    .Include(x => x.Purchases)
+                    .Include(x => x.Sales)
+                    .Include(x => x.Reports)
+                    .AsSplitQuery()
+                    .ToListAsync();
+                allCustomersByFullName = allCustomersByFullName.Where(n => n.CustomerFirstName.Contains(searchByFirstName) && n.CustomerLastName.Contains(searchByLastName)).ToList();
+                _logger.LogInformation("All Customers By Full Name were found successfully.");
+                return allCustomersByFullName;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError($"An error occurred while retrieving All Customers By Full Name in the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving the information.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"There is an error retrieving All Customers By Full Name from the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                throw new Exception("Operation was failed when it was giving Customers information.");
+            }
+        }
+
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
             try

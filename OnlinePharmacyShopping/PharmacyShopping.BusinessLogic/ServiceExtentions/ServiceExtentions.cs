@@ -18,6 +18,7 @@ namespace PharmacyShopping.BusinessLogic.ServiceExtentions
 
             // Validation
             services.AddScoped<IValidator<CustomerRequestDTO>, CustomerRequestDTOValidator>();
+            services.AddScoped<IValidator<CustomerRequestDTOForLogin>, CustomerRequestDTOForLoginValidator>();
             services.AddScoped<IValidator<MedicineRequestDTO>, MedicineRequestDTOValidation>();
             services.AddScoped<IValidator<PaymentRequestDTO>, PaymentRequestDTOValidation>();
             services.AddScoped<IValidator<PharmacyRequestDTO>, PharmacyRequestDTOValidation>();

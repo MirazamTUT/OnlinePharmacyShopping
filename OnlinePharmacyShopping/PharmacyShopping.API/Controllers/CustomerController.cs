@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
@@ -15,17 +16,19 @@ namespace PharmacyShopping.API.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IValidator<CustomerRequestDTO> _validator;
+        private readonly IValidator<CustomerRequestDTOForLogin> _validatorForLogin;
         private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerService customerService, IValidator<CustomerRequestDTO> validator, ILogger<CustomerController> logger)
+        public CustomerController(ICustomerService customerService, IValidator<CustomerRequestDTO> validator, IValidator<CustomerRequestDTOForLogin> validatorForLogin, ILogger<CustomerController> logger)
         {
             _customerService = customerService;
             _validator = validator;
             _logger = logger;
+            _validatorForLogin = validatorForLogin;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<int>> AddCustomerAsync(CustomerRequestDTO customerRequestDTO)
+        [HttpPost("Register")]
+        public async Task<ActionResult<int>> RegisterAsync(CustomerRequestDTO customerRequestDTO)
         {
             try
             {
@@ -33,7 +36,7 @@ namespace PharmacyShopping.API.Controllers
                 if (validationResult.IsValid)
                 {
                     _logger.LogInformation("Customer was successfully added.");
-                    return await _customerService.AddCustomerAsync(customerRequestDTO);
+                    return await _customerService.AddRegisterAsync(customerRequestDTO);
                 }
                 else
                 {
@@ -57,7 +60,40 @@ namespace PharmacyShopping.API.Controllers
             }
         }
 
-        [HttpGet("Id")]
+        [HttpPost("Login")]
+        public async Task<ActionResult<string>> LoginAsync(CustomerRequestDTOForLogin customerRequestDTOForLogin)
+        {
+            try
+            {
+                ValidationResult validationResult = await _validatorForLogin.ValidateAsync(customerRequestDTOForLogin);
+                if (validationResult.IsValid)
+                {
+                    _logger.LogInformation("Customer was successfully added.");
+                    return await _customerService.LoginAsync(customerRequestDTOForLogin);
+                }
+                else
+                {
+                    throw new Exception("You entered the values incorrectly or incompletely, please try to enter them all correctly and completely again.");
+                }
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError($"Mapping failed: {ex.Message}, StackTrace: {ex.StackTrace}");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError($"There is an error adding Customer to the database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Unexpected error saving Customer to database: {ex.Message}, StackTrace: {ex.StackTrace}.");
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+        }
+
+        [HttpGet("Id"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByIdAsync(int id)
         {
             try

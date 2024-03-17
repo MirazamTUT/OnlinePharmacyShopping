@@ -16,7 +16,9 @@
 
         public string CustomerEmail { get; set; }
 
-        public string CustomerPassword { get; set; }
+        public byte[] CustomerPasswordHash { get; set; }
+
+        public byte[] CustomerPasswordSalt { get; set; }
 
 
         public List<Purchase> Purchases { get; set; }

@@ -10,7 +10,7 @@
 
         public Gender Gender { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -19,6 +19,10 @@
         public byte[] CustomerPasswordHash { get; set; }
 
         public byte[] CustomerPasswordSalt { get; set; }
+
+        public byte[] ContentOfImage { get; set; }
+
+        public string ContentType { get; set; }
 
 
         public List<Purchase> Purchases { get; set; }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using PharmacyShopping.BusinessLogic.DTO.RequestDTOs;
 using PharmacyShopping.DataAccess.Models;
 
@@ -12,7 +13,9 @@ namespace PharmacyShopping.BusinessLogic.DTO.RequestDTOs
 
         public Gender Gender { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public IFormFile formFile { get; set; }
+
+        public DateOnly BirthDate { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -38,9 +41,9 @@ public class CustomerRequestDTOValidator : AbstractValidator<CustomerRequestDTO>
             .MinimumLength(2).WithMessage("Customer Last Name cannot be less than 2 characters.")
             .MaximumLength(15).WithMessage("Customer Last Name cannot be longer than 15 characters.");
 
-        RuleFor(u => u.BirthDate)
-            .NotNull().WithMessage("Birth date must be entered.")
-            .LessThan(DateTime.Today).WithMessage("Birth date cannot be empty");
+       // RuleFor(u => u.BirthDate)
+          // .NotNull().WithMessage("Birth date must be entered.")
+           // .LessThan(DateOnly.MinValue).WithMessage("Birth date cannot be earliest");
 
         RuleFor(u => u.Gender)
             .NotNull().WithMessage("Gender must be entered.")
